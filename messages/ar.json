@@ -1,6 +1,46 @@
 {
-    "HomePage": {
-      "title": "Hello world!",
-      "about": "Go to the about page"
-    }
+  "HomePage": {
+    "title": "مرحبًا بك في تطبيقنا",
+    "about": "معلومات عنا"
+  },
+  "Header": {
+    "logo": "ويبيسو",
+    "home": "الصفحة الرئيسية",
+    "about": "من نحن",
+    "services": "خدماتنا",
+    "webDevelopment": "تطوير الويب",
+    "seo": "تحسين محركات البحث",
+    "digitalMarketing": "التسويق الرقمي",
+    "project": "المشاريع",
+    "contact": "اتصل بنا",
+    "pages": "صفحات",
+    "team": "فريقنا",
+    "faq": "الأسئلة الشائعة",
+    "pricing": "الأسعار",
+    "getStarted": "ابدأ الآن"
+  },
+  "AboutPage": {
+    "title": "من نحن",
+    "description": "تعرف على المزيد عن شركتنا وما نقوم به.",
+    "back": "العودة إلى الصفحة الرئيسية"
+  },
+  "ContactPage": {
+    "title": "اتصل بنا",
+    "description": "تواصل مع فريقنا.",
+    "name": "الاسم",
+    "email": "البريد الإلكتروني",
+    "message": "الرسالة",
+    "send": "إرسال الرسالة",
+    "back": "العودة إلى الصفحة الرئيسية"
+  },
+  "HeroSection": {
+    "transform": "طور",
+    "your": "وجودك",
+    "online": "على",
+    "presence": "الإنترنت",
+    "today": "اليوم",
+    "description": "هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص أو شكل توضع الفقرات.",
+    "getStarted": "ابدأ الآن",
+    "explorePortfolio": "استكشف أعمالنا"
+  }
 }

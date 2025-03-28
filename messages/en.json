@@ -1,6 +1,46 @@
 {
-    "HomePage": {
-      "title": "Hello world!",
-      "about": "Go to the about page"
-    }
+  "HomePage": {
+    "title": "Welcome to Our Application",
+    "about": "About Us"
+  },
+  "Header": {
+    "logo": "Webiso",
+    "home": "Homepage",
+    "about": "About us",
+    "services": "Services",
+    "webDevelopment": "Web Development",
+    "seo": "SEO",
+    "digitalMarketing": "Digital Marketing",
+    "project": "Project",
+    "contact": "Contact us",
+    "pages": "Pages",
+    "team": "Our Team",
+    "faq": "FAQ",
+    "pricing": "Pricing",
+    "getStarted": "Get Started"
+  },
+  "AboutPage": {
+    "title": "About Us",
+    "description": "Learn more about our company and what we do.",
+    "back": "Back to Home"
+  },
+  "ContactPage": {
+    "title": "Contact Us",
+    "description": "Get in touch with our team.",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "send": "Send Message",
+    "back": "Back to Home"
+  },
+  "HeroSection": {
+    "transform": "Transform",
+    "your": "Your",
+    "online": "Online",
+    "presence": "Presence",
+    "today": "Today",
+    "description": "Est in adipiscing odio lectus parturient ex euismod arcu porttitor facilisis. Nisi curae blandit facilisis nisl est adipiscing.",
+    "getStarted": "Get Started",
+    "explorePortfolio": "Explore Portfolio"
+  }
 }
