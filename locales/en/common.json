@@ -1,0 +1,14 @@
+{
+    "home": {
+      "title": "Welcome to Our Site",
+      "description": "A multilingual website built with Next.js"
+    },
+    "blog": {
+      "title": "Our Blog",
+      "readMore": "Read More"
+    },
+    "nav": {
+      "home": "Home",
+      "blog": "Blog"
+    }
+  }
