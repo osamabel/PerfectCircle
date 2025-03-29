@@ -38,7 +38,7 @@ body {
   display: inline-block;
 }
 
-@keyframes marquee {
+@keyframes marqueeAR {
   0% {
     transform: translateX(0);
   }
@@ -47,9 +47,23 @@ body {
   }
 }
 
-.animate-marquee {
+@keyframes marqueeEN {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee-ar {
   min-width: auto;
-  animation: marquee 40s linear infinite;
+  animation: marqueeAR 40s linear infinite;
+}
+
+.animate-marquee-en {
+  min-width: auto;
+  animation: marqueeEN 40s linear infinite;
 }
 
 /* Optional: Pause animation on hover */

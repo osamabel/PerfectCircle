@@ -1,13 +1,14 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 export default function CompanyMarquee() {
   const t = useTranslations('Companies');
   const [isMobile, setIsMobile] = useState(false);
-  
+  const locale = useLocale();
+
   // Check screen size for responsive adjustments
   useEffect(() => {
     const handleResize = () => {
@@ -46,7 +47,7 @@ export default function CompanyMarquee() {
         {/* Marquee container */}
         <div className="flex flex-row py-[40px]">
           {/* First copy of logos */}
-          <div className="animate-marquee inline-flex bg-blFue-500">
+          <div className={`animate-marquee-${locale} inline-flex bg-blFue-500`}>
             {companies.map((company) => (
               <div 
                 key={company.id} 
@@ -66,7 +67,7 @@ export default function CompanyMarquee() {
           </div>
           
           {/* Duplicate set of logos for seamless looping */}
-          <div className="animate-marquee inline-flex">
+          <div className={`animate-marquee-${locale} inline-flex`}>
             {companies.map((company) => (
               <div 
                 key={`dup-${company.id}`} 
