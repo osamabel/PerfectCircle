@@ -7,15 +7,7 @@ import { useState } from 'react';
 
 export default function ProjectsSection() {
   const t = useTranslations('Projects');
-  const [hoveredProject, setHoveredProject] = useState(null);
-//   "featuredProject": "Featured Project",
-//   "inspired": "Inspired by",
-//   "ourProjects": "Our Projects",
-//   "letsCreate": "Let's Create",
-//   "yours": "Yours!",
-//   "learnMore": "Learn more",
-//   "viewProject": "View Project",
-//   "allProjects": "View All Projects"
+  const [hoveredProject, setHoveredProject] = useState<string | null>(null);
   const projects = [
     {
       id: 'man-dance',
