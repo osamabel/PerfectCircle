@@ -179,5 +179,14 @@
     "termsOfUse": "Term of use",
     "privacyPolicy": "Privacy Policy",
     "cookiePolicy": "Cookie Policy"
+  },
+  "Team": {
+    "meetOurTeam": "Meet Our Team",
+    "weTalk": "We talk a lot about",
+    "hope": "hope",
+    "helping": "helping",
+    "and": "and",
+    "teamwork": "teamwork",
+    "viewProfile": "View Profile"
   }
 }

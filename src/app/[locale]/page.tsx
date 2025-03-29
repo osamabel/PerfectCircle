@@ -10,6 +10,7 @@ import ServicesSection from '@/components/ServicesSection';
 import Ready from '@/components/Ready';
 import ProjectsSection from '@/components/ProjectsSection';
 import Footer from '@/components/Footer';
+import TeamSection from '@/components/TeamSection';
 
 export default function HomePage() {
   const t = useTranslations('HomePage');
@@ -25,6 +26,7 @@ export default function HomePage() {
       <ServicesSection />
       <Ready />
       <ProjectsSection />
+      <TeamSection />
       <Footer />
     </>
   );
