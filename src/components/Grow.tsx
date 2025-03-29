@@ -1,0 +1,65 @@
+'use client';
+
+import { useTranslations } from 'next-intl';
+import Image from 'next/image';
+import Link from 'next/link';
+import CompanyMarquee from './CompanyMarquee';
+
+export default function Grow() {
+  const t = useTranslations('Grow');
+  
+  return (
+    <div className="relative">
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <div className="relative w-full h-screen">
+          <Image
+            src="https://template.creativemox.com/webiso/wp-content/uploads/sites/23/2024/06/programmers-work-late-at-night.jpg"
+            alt="Developers working"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/10 to-black/10"></div>
+        </div>
+      </div>
+      
+      {/* Main Content */}
+      <div className="relative z-10 min-h-screen flex flex-col">
+        {/* Company Marquee at bottom */}
+        <div className="mt-auto">
+          <CompanyMarquee />
+        </div>
+        <div className="container mx-auto px-4 flex-grow flex items-center">
+          <div className="max-w-7xl mx-auto w-full">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+              {/* Left Content - Card */}
+              <div className="bg-black/30 backdrop-blur-sm p-14 rounded-xl">
+                <h1 className="text-4xl md:text-5xl font-medium text-white mb-4">
+                {t('title')} <br />
+                <span className="gradient-text"> {t('businessGrow')}</span>
+                </h1>
+                
+                <p className="text-gray-300 mb-8 max-w-lg">
+                  {t('description')}
+                </p>
+                
+                <Link 
+                  href="/contact"
+                  className="inline-block bg-[#65DBA8] hover:bg-[#4cc492] text-black font-medium px-8 py-3 rounded-full transition duration-300"
+                >
+                  Learn more
+                </Link>
+              </div>
+              
+              {/* Right Content */}
+              <div className="hidden lg:block">
+                {/* You can add additional content here if needed */}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

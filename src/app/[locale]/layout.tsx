@@ -22,6 +22,7 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'} suppressHydrationWarning>
       <head>
+        <title>{locale === 'ar' ? 'الدائرة المثالية': 'Perfect Circle'}</title>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -29,7 +30,6 @@ export default async function LocaleLayout({
       </head>
       <body suppressHydrationWarning className={`${locale === 'ar' ? 'font-arabic' : 'font-inter'} antialiased text-gray-800`}>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          {/* <Header /> */}
           <main>
             {children}
           </main>

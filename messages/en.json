@@ -17,12 +17,24 @@
     "team": "Our Team",
     "faq": "FAQ",
     "pricing": "Pricing",
-    "getStarted": "Get Started"
+    "getStarted": "Get Started",
+    "blogs": "Blogs"
   },
-  "AboutPage": {
-    "title": "About Us",
-    "description": "Learn more about our company and what we do.",
-    "back": "Back to Home"
+  "About": {
+    "whoWeAre": "WHO WE ARE",
+    "innovativeSolutions": "Innovative Solutions for Your",
+    "onlineSuccess": "Online Success.",
+    "description": "We specialize in creating digital experiences that enable your business to achieve new goals. With a team of experienced professionals, we offer services including establishing and managing technical projects, designing and developing websites and applications, artificial intelligence solutions, search engine optimization, establishing and managing online stores, digital marketing, and social media management.",
+    "customSolutions": "Custom Solutions",
+    "cuttingEdgeDesign": "Cutting-Edge Design",
+    "seoOptimization": "SEO Optimization",
+    "responsiveDesign": "Responsive Design",
+    "innovativeTechnology": "Innovative Technology",
+    "securityReliability": "Security and Reliability",
+    "projectsDone": "Project Done",
+    "happyClients": "Happy Client",
+    "clientReviews": "Client Reviews",
+    "discoverMore": "Discover more"
   },
   "ContactPage": {
     "title": "Contact Us",
@@ -34,13 +46,138 @@
     "back": "Back to Home"
   },
   "HeroSection": {
-    "transform": "Transform",
-    "your": "Your",
-    "online": "Online",
-    "presence": "Presence",
-    "today": "Today",
-    "description": "Est in adipiscing odio lectus parturient ex euismod arcu porttitor facilisis. Nisi curae blandit facilisis nisl est adipiscing.",
+    "one": "We are experts in",
+    "two": "Digital Transformation",
+    "description": "Whether you're looking to promote your brand or develop your own software, we offer the ideal solutions to achieve your goals effectively and efficiently.",
     "getStarted": "Get Started",
     "explorePortfolio": "Explore Portfolio"
+  },
+  "Consultation": {
+    "formTitle": "Free Consultations",
+    "designTitle": "Design & Development",
+    "designDescription": "Focusing on user experience and interface design to ensure intuitive navigation and engagement.",
+    "maintenanceTitle": "Maintenance & Support",
+    "maintenanceDescription": "Keeping your website up-to-date, fast loading times, smooth performance and security patches.",
+    "nameLabel": "Name",
+    "namePlaceholder": "Name",
+    "companyLabel": "Company",
+    "companyPlaceholder": "Company",
+    "phoneLabel": "Phone",
+    "phonePlaceholder": "Phone",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Email",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Message",
+    "submitButton": "Get an Appointment",
+    "submitting": "Submitting...",
+    "sideText": "Get an Appointment"
+  },
+  "Companies": {
+    "trustedBy": "Trusted by Leading Brands",
+    "description": "Join hundreds of companies that rely on our services for their digital presence and online growth."
+  },
+  "Grow": {
+    "title": "See How We Can Help",
+    "businessGrow": "Business Grow.",
+    "description": "We are committed to providing innovative solutions that help your company grow and thrive in the digital age. Our team of experts is ready to help you achieve your goals.",
+    "learnMore": "Learn more"
+  },
+  "Ready": {
+    "ready": "Ready to Start?",
+    "build": "Let's Build.",
+    "great": "Something Great.",
+    "together": "Together!",
+    "description": "Take the first step towards transforming your digital presence. Our team is ready to bring your vision to life with innovative design and cutting-edge technology.",
+    "learnMore": "Learn more"
+  },
+  "Stats": {
+    "innovative": "Innovative Design for",
+    "modernBusinesses": "Modern Businesses.",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
+    "learnMore": "Learn more",
+    "trafficIncrease": "Traffic Increase",
+    "revenueIncrease": "Revenue Increase",
+    "trafficDescription": "By optimizing your website for search engines and enhancing user experience.",
+    "revenueDescription": "Rise in revenue as more visitors convert into paying customers."
+  },
+  "Services": {
+    "sectionTitle": "Our Services",
+    "getStarted": "Get Started",
+    "webDesign": {
+      "title": "Web Design",
+      "shortDesc": "Habitant risus facilisis vitae curabitur hac nullam.",
+      "description": "Netus condimentum erat vestibulum sollicitudin sem tempor lacinia. Torquent fringilla facilisi placerat magna pellentesque facilisis nisi faucibus."
+    },
+    "webDevelopment": {
+      "title": "Web Development",
+      "shortDesc": "Habitant risus facilisis vitae curabitur hac nullam.",
+      "description": "Netus condimentum erat vestibulum sollicitudin sem tempor lacinia. Torquent fringilla facilisi placerat magna pellentesque facilisis nisi faucibus."
+    },
+    "digitalMarketing": {
+      "title": "Digital Marketing",
+      "shortDesc": "Habitant risus facilisis vitae curabitur hac nullam.",
+      "description": "Netus condimentum erat vestibulum sollicitudin sem tempor lacinia. Torquent fringilla facilisi placerat magna pellentesque facilisis nisi faucibus."
+    },
+    "visualIdentity": {
+      "title": "Visual Identity",
+      "shortDesc": "Habitant risus facilisis vitae curabitur hac nullam.",
+      "description": "Netus condimentum erat vestibulum sollicitudin sem tempor lacinia. Torquent fringilla facilisi placerat magna pellentesque facilisis nisi faucibus."
+    },
+    "consultation": {
+      "title": "Consultation",
+      "shortDesc": "Habitant risus facilisis vitae curabitur hac nullam.",
+      "description": "Netus condimentum erat vestibulum sollicitudin sem tempor lacinia. Torquent fringilla facilisi placerat magna pellentesque facilisis nisi faucibus."
+    },
+    "webMaintenance": {
+      "title": "Web Maintenance",
+      "shortDesc": "Habitant risus facilisis vitae curabitur hac nullam.",
+      "description": "Netus condimentum erat vestibulum sollicitudin sem tempor lacinia. Torquent fringilla facilisi placerat magna pellentesque facilisis nisi faucibus."
+    }
+  },
+  "Projects": {
+    "featuredProject": "Featured Project",
+    "inspired": "Inspired by",
+    "ourProjects": "Our Projects",
+    "letsCreate": "Let's Create",
+    "yours": "Yours!",
+    "learnMore": "Learn more",
+    "viewProject": "View Project",
+    "allProjects": "View All Projects"
+  },
+  "Footer": {
+    "address": {
+      "line1": "Jalan Cempaka Wangi No 22",
+      "line2": "Jakarta - Indonesia"
+    },
+    "services": {
+      "title": "Services",
+      "webDesign": "Web Design",
+      "webDevelopment": "Web Development",
+      "seoDigitalMarketing": "SEO & Digital Marketing",
+      "brandingVisualIdentity": "Branding & Visual Identity",
+      "consultationStrategy": "Consultation & Strategy",
+      "maintenanceSupport": "Maintenance & Support"
+    },
+    "support": {
+      "title": "Support",
+      "helpCenter": "Help Center",
+      "ticketSupport": "Ticket Support",
+      "contactUs": "Contact us",
+      "customerSupport": "Customer Support",
+      "forumCommunity": "Forum Community"
+    },
+    "company": {
+      "title": "Company",
+      "aboutUs": "About us",
+      "leadership": "Leadership",
+      "careers": "Careers",
+      "articleNews": "Article & News",
+      "legalNotices": "Legal Notices"
+    },
+    "copyright": "Copyright ©",
+    "copyrightSuffix": "webiso, All rights reserved. Powered by",
+    "termsOfUse": "Term of use",
+    "privacyPolicy": "Privacy Policy",
+    "cookiePolicy": "Cookie Policy"
   }
 }

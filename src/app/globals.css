@@ -3,6 +3,9 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --secondary: #18C4CF;
+  --primary:hsl(138, 72%, 68%);
+  --lightgreen: #70ECB6;
 }
 
 @theme inline {
@@ -24,3 +27,32 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.gradient-text {
+  background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  font-weight:600;
+  -webkit-text-fill-color: transparent;
+  text-fill-color: transparent;
+  display: inline-block;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-marquee {
+  min-width: auto;
+  animation: marquee 40s linear infinite;
+}
+
+/* Optional: Pause animation on hover */
+/* .animate-marquee:hover {
+  animation-play-state: paused;
+} */
