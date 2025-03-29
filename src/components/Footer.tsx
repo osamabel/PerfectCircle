@@ -116,7 +116,7 @@ export default function Footer() {
             {/* Copyright */}
             <div className="mb-4 md:mb-0">
             <p className="text-gray-400 text-sm">
-              {t('copyright')} {currentYear} {t('copyrightSuffix')} <Link href="https://moxcreative.com" className="text-gray-400 hover:text-white">MoxCreative</Link>.
+              {t('copyright')} {currentYear} {t('copyrightSuffix')}.
             </p>
             </div>
             
