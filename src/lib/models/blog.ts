@@ -29,7 +29,7 @@ export async function getAllBlogPosts() {
     ORDER BY b.created_at DESC
   `);
   
-  return result.rows.map(row => ({
+  return result.rows.map((row:any) => ({
     ...row,
     author: {
       id: row.author_id,
@@ -49,7 +49,7 @@ export async function getPublishedBlogPosts() {
     ORDER BY b.published_at DESC
   `, ['published']);
   
-  return result.rows.map(row => ({
+  return result.rows.map((row:any) => ({
     ...row,
     author: {
       id: row.author_id,
