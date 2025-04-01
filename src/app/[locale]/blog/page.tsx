@@ -62,6 +62,12 @@ export default function BlogPage() {
         
         // Filter published posts only
         const publishedPosts = allPosts
+          .map((post: any) => ({
+            ...post,
+            title: JSON.parse(post.title),  // Convert title from JSON string to object
+            excerpt: JSON.parse(post.excerpt),
+            content: JSON.parse(post.content)
+          }))
           .filter((post: BlogPost) => post.status === 'published')
           .sort((a: BlogPost, b: BlogPost) => {
             // Sort by published_at date (newest first)
@@ -109,7 +115,7 @@ export default function BlogPage() {
       <Header />
       <main>
         {/* Hero section */}
-        <section className="bg-gray-900 text-white py-20">
+        <section className="bg-[#242424] text-white py-20">
           <div className="container mx-auto px-4 text-center">
             <h1 className="text-4xl sm:text-5xl font-bold mb-6">
               {t('blogTitle')}
@@ -237,7 +243,7 @@ export default function BlogPage() {
         </section>
         
         {/* Call to action */}
-        <section className="bg-gray-900 py-16 text-white">
+        <section className="bg-[#242424] py-16 text-white">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-3xl font-bold mb-6">
               {locale === 'ar' ? 'هل تريد البقاء على اطلاع؟' : 'Want to stay informed?'}

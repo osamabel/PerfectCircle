@@ -70,7 +70,14 @@ export default function BlogPostDetailPage() {
         const posts: BlogPost[] = await response.json();
         
         // Find the post by slug
-        const foundPost = posts.find(p => p.slug === slug && p.status === 'published');
+        const foundPost = posts
+        .map((post: any) => ({
+          ...post,
+          title: JSON.parse(post.title),  // Convert title from JSON string to object
+          excerpt: JSON.parse(post.excerpt),
+          content: JSON.parse(post.content)
+        }))
+        .find(p => p.slug === slug && p.status === 'published');
         
         if (!foundPost) {
           // If not found or not published, use notFound() to show 404 page
@@ -82,6 +89,12 @@ export default function BlogPostDetailPage() {
         
         // Find related posts (exclude current post, limit to 3)
         const related = posts
+          .map((post: any) => ({
+            ...post,
+            title: JSON.parse(post.title),  // Convert title from JSON string to object
+            excerpt: JSON.parse(post.excerpt),
+            content: JSON.parse(post.content)
+          }))
           .filter(p => p.id !== foundPost.id && p.status === 'published')
           .slice(0, 3);
         
@@ -131,7 +144,7 @@ export default function BlogPostDetailPage() {
       <Header />
       <main>
         {/* Featured image */}
-        <div className="w-full relative h-[50vh] bg-gray-900">
+        <div className="w-full relative h-[50vh] bg-[gray-900]">
           {post.featured_image ? (
             <Image
               src={post.featured_image}
@@ -201,13 +214,13 @@ export default function BlogPostDetailPage() {
         
         {/* Related posts */}
         {relatedPosts.length > 0 && (
-          <section className="bg-gray-50 py-16">
+          <section className="bg-[#242424] py-16 ">
             <div className="container mx-auto px-4">
-              <h2 className="text-3xl font-bold mb-10 text-center">
+              <h2 className="text-3xl text-white font-bold mb-10 text-center">
                 {locale === 'ar' ? 'مقالات ذات صلة' : 'Related Articles'}
               </h2>
               
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8  text-white">
                 {relatedPosts.map((relatedPost) => (
                   <Link 
                     key={relatedPost.id}
@@ -231,8 +244,8 @@ export default function BlogPostDetailPage() {
                     </div>
                     
                     {/* Post Content */}
-                    <div className="p-6">
-                      <h3 className="text-xl font-bold mb-2">
+                    <div className="p-6 bg-[#151515] h-full">
+                      <h3 className="text-xl font-bold mb-2 ">
                         {relatedPost.title[locale] || relatedPost.title['en']}
                       </h3>
                       <p className="text-gray-600 line-clamp-2" style={{ direction: locale === 'ar' ? 'rtl' : 'ltr' }}>
@@ -249,12 +262,12 @@ export default function BlogPostDetailPage() {
         )}
         
         {/* Call to action */}
-        <section className="py-16 bg-white">
+        <section className="py-16 bg-[#0f0f0f]">
           <div className="container mx-auto px-4 max-w-4xl text-center">
-            <h2 className="text-3xl font-bold mb-6">
+            <h2 className="text-3xl text-white font-bold mb-6">
               {locale === 'ar' ? 'هل لديك سؤال؟' : 'Have a question?'}
             </h2>
-            <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
+            <p className="text-gray-200 mb-8 max-w-2xl mx-auto">
               {locale === 'ar' 
                 ? 'نحن هنا للمساعدة. تواصل معنا اليوم للحصول على إجابات لجميع استفساراتك.' 
                 : 'We\'re here to help. Contact us today to get answers to all your inquiries.'}

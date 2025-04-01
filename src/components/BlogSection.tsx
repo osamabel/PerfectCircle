@@ -61,7 +61,6 @@ export default function BlogSection() {
             excerpt: JSON.parse(post.excerpt),
             content: JSON.parse(post.content)
           }));
-        console.log('>>>>>>', publishedPosts)
         setPosts(publishedPosts);
       } catch (error) {
         console.error('Error fetching blog posts:', error);
