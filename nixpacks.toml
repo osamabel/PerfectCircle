@@ -1,0 +1,18 @@
+[phases.setup]
+nixPkgs = ["nodejs_20", "postgresql"]
+
+[phases.install]
+cmds = ["npm install"]
+
+[phases.build]
+cmds = ["npm run build"]
+
+[phases.setup-db]
+dependsOn = ["build"]
+cmds = ["node scripts/setup-db.js"]
+
+[start]
+cmd = "npm run start"
+
+[env]
+NODE_ENV = "production"

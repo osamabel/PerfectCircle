@@ -4,8 +4,8 @@
 INSERT INTO users (name, email, password, role)
 VALUES (
   'Admin User',
-  'admin@example.com',
-  '$2a$10$.gzEbScQ5C3tlUaSDo2ii.xy4JvGsY5wMBzaItp4HV07YdoXa5YdK', -- hashed 'Admin123!'
+  'admin@dawood.com',
+  '$2a$10$t27OpVXW9RP4eHmHkbQu4uwZGWNwCF9h.dQiZuKfSPxodmwyq/EYi', -- hashed 'q2I$0yw643]'
   'admin'
 ) ON CONFLICT (email) DO NOTHING;
 
