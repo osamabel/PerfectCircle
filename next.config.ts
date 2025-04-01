@@ -5,10 +5,16 @@ const nextConfig: NextConfig = {
     images: {
         domains: [
             'template.creativemox.com',
-            '64.226.67.120.sslip.io',
-            'kc8w088c08808kwo0kcwc48c.64.226.67.120.sslip.io'
         ]
     },
+    async rewrites() {
+        return [
+          {
+            source: '/uploads/:path*',
+            destination: '/uploads/:path*',
+          },
+        ];
+      },
 };
  
 const withNextIntl = createNextIntlPlugin();

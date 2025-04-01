@@ -46,7 +46,7 @@ export default function HomePage() {
   return (
     <>
       <Header/>
-      <TestImage />
+      {/* <TestImage /> */}
       <HeroSection />
       <ConsultationSection />
       <AboutSection />
