@@ -1,10 +1,15 @@
 import { Pool } from 'pg';
 
 // Create a new PostgreSQL pool
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
-});
+
+let pool:any;
+
+if (!pool) {
+  pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: false // Disable SSL for Coolify internal connections
+  });
+}
 
 export async function query(text: string, params?: any[]) {
   const start = Date.now();
