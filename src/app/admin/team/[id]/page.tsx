@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { ArrowLeft, Upload, X } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -9,6 +9,7 @@ import { uploadImage } from '@/lib/upload';
 import { TeamMember } from '@/lib/models/team';
 
 export default function EditTeamMemberPage({ params }: { params: { id: string } }) {
+  const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -32,7 +33,7 @@ export default function EditTeamMemberPage({ params }: { params: { id: string } 
         setIsLoading(true);
         setError(null);
         
-        const response = await fetch(`/api/team/${params.id}`);
+        const response = await fetch(`/api/team/${id}`);
         
         if (!response.ok) {
           if (response.status === 404) {
@@ -64,7 +65,7 @@ export default function EditTeamMemberPage({ params }: { params: { id: string } 
     };
     
     fetchTeamMember();
-  }, [params.id]);
+  }, [id]);
   
   // Handle image selection
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {

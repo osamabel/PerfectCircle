@@ -23,6 +23,18 @@ CREATE TABLE IF NOT EXISTS team_members (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Create services table
+CREATE TABLE IF NOT EXISTS services (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  title JSONB NOT NULL DEFAULT '{}'::jsonb, -- Localized titles
+  slug VARCHAR(255) UNIQUE NOT NULL,
+  short_description JSONB NOT NULL DEFAULT '{}'::jsonb, -- Localized short descriptions
+  description JSONB NOT NULL DEFAULT '{}'::jsonb, -- Localized descriptions
+  icon VARCHAR(50) NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Create blog_posts table
 CREATE TABLE IF NOT EXISTS blog_posts (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -63,19 +75,37 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Create triggers for each table
-CREATE TRIGGER update_users_modtime
-BEFORE UPDATE ON users
-FOR EACH ROW EXECUTE FUNCTION update_modified_column();
+-- Create triggers for each table using IF NOT EXISTS
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'update_users_modtime') THEN
+        CREATE TRIGGER update_users_modtime
+        BEFORE UPDATE ON users
+        FOR EACH ROW EXECUTE FUNCTION update_modified_column();
+    END IF;
 
-CREATE TRIGGER update_team_members_modtime
-BEFORE UPDATE ON team_members
-FOR EACH ROW EXECUTE FUNCTION update_modified_column();
+    IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'update_team_members_modtime') THEN
+        CREATE TRIGGER update_team_members_modtime
+        BEFORE UPDATE ON team_members
+        FOR EACH ROW EXECUTE FUNCTION update_modified_column();
+    END IF;
 
-CREATE TRIGGER update_blog_posts_modtime
-BEFORE UPDATE ON blog_posts
-FOR EACH ROW EXECUTE FUNCTION update_modified_column();
+    IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'update_blog_posts_modtime') THEN
+        CREATE TRIGGER update_blog_posts_modtime
+        BEFORE UPDATE ON blog_posts
+        FOR EACH ROW EXECUTE FUNCTION update_modified_column();
+    END IF;
 
-CREATE TRIGGER update_projects_modtime
-BEFORE UPDATE ON projects
-FOR EACH ROW EXECUTE FUNCTION update_modified_column();
+    IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'update_projects_modtime') THEN
+        CREATE TRIGGER update_projects_modtime
+        BEFORE UPDATE ON projects
+        FOR EACH ROW EXECUTE FUNCTION update_modified_column();
+    END IF;
+
+    IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'update_services_modtime') THEN
+        CREATE TRIGGER update_services_modtime
+        BEFORE UPDATE ON services
+        FOR EACH ROW EXECUTE FUNCTION update_modified_column();
+    END IF;
+END
+$$;

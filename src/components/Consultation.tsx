@@ -44,7 +44,7 @@ export default function ConsultationSection() {
   };
 
   return (
-    <section className="relative bg-[#151515] lg:h-[460px] text-white py-8 md:py-24">
+    <section id='contact' className="relative bg-[#151515] lg:h-[460px] text-white py-8 md:py-24">
       <div className="container mx-auto px-4 flex flex-col-reverse lg:flex-row gap-y-[40px]">
         {/* Left side - Service Icons */}
         <div className="lg:w-[60%] mb-10 lg:mb-0 lg:pr-8 flex flex-col lg:flex-row gap-[30px] ">

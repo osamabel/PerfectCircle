@@ -1,18 +1,59 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
+import { useState, useEffect } from 'react';
 import { Users, FileText, Layout, Clock, SquareMenu } from 'lucide-react';
 import Link from 'next/link';
 
 export default function AdminDashboard() {
   const { data: session } = useSession();
+  const [teamCount, setTeamCount] = useState(0);
+  const [servicesCount, setServicesCount] = useState(0);
+  const [projectsCount, setProjectsCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  // Fetch data counts
+  useEffect(() => {
+    const fetchCounts = async () => {
+      try {
+        setIsLoading(true);
+        
+        // Fetch team members count
+        const teamResponse = await fetch('/api/team');
+        if (teamResponse.ok) {
+          const teamData = await teamResponse.json();
+          setTeamCount(teamData.length);
+        }
+        
+        // Fetch services count
+        const servicesResponse = await fetch('/api/services');
+        if (servicesResponse.ok) {
+          const servicesData = await servicesResponse.json();
+          setServicesCount(servicesData.length);
+        }
+        
+        // Fetch projects count
+        const projectsResponse = await fetch('/api/projects');
+        if (projectsResponse.ok) {
+          const projectsData = await projectsResponse.json();
+          setProjectsCount(projectsData.length);
+        }
+      } catch (error) {
+        console.error('Error fetching counts:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchCounts();
+  }, []);
   
   // Quick stats
   const stats = [
-    { name: 'Team Members', count: 4, icon: Users, href: '/admin/team', color: 'bg-green-100 text-green-800' },
-    { name: 'Blog Posts', count: 0, icon: FileText, href: '/admin/blog', color: 'bg-blue-100 text-blue-800' },
-    { name: 'services', count: 0, icon: SquareMenu, href: '/admin/services', color: 'bg-purple-100 text-purple-800' },
-    { name: 'Projects', count: 0, icon: Layout, href: '/admin/projects', color: 'bg-purple-100 text-purple-800' },
+    { name: 'Team Members', count: teamCount, icon: Users, href: '/admin/team', color: 'bg-green-100 text-green-800' },
+    { name: 'Services', count: servicesCount, icon: SquareMenu, href: '/admin/services', color: 'bg-blue-100 text-blue-800' },
+    { name: 'Projects', count: projectsCount, icon: Layout, href: '/admin/projects', color: 'bg-indigo-100 text-indigo-800' },
+    { name: 'Blog Posts', count: 0, icon: FileText, href: '/admin/blog', color: 'bg-purple-100 text-purple-800' },
   ];
   
   return (
@@ -26,7 +67,7 @@ export default function AdminDashboard() {
       </div>
       
       {/* Stats */}
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-4">
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
@@ -46,7 +87,11 @@ export default function AdminDashboard() {
                     <dl>
                       <dt className="text-sm font-medium text-gray-500 truncate">{stat.name}</dt>
                       <dd>
-                        <div className="text-lg font-semibold text-gray-900">{stat.count}</div>
+                        {isLoading ? (
+                          <div className="h-6 w-12 bg-gray-200 animate-pulse rounded"></div>
+                        ) : (
+                          <div className="text-lg font-semibold text-gray-900">{stat.count}</div>
+                        )}
                       </dd>
                     </dl>
                   </div>

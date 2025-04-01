@@ -51,7 +51,7 @@ export default function AdminLayout({
     { name: 'Dashboard', href: '/admin', icon: Home },
     { name: 'Team Members', href: '/admin/team', icon: Users },
     { name: 'Blog Posts', href: '/admin/blog', icon: FileText },
-    { name: 'Services', href: '/admin/Services', icon: SquareMenu },
+    { name: 'Services', href: '/admin/services', icon: SquareMenu },
     { name: 'Projects', href: '/admin/projects', icon: Layout },
     { name: 'Settings', href: '/admin/settings', icon: Settings },
   ];

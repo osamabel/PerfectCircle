@@ -15,6 +15,9 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   
   useEffect(() => {
+    // Initialize scroll state on component mount
+    setScrolled(window.scrollY > 50);
+    
     const controlHeader = () => {
       const currentScrollY = window.scrollY;
       
@@ -79,27 +82,37 @@ export default function Header() {
               {t('home')}
             </Link>
             <Link 
-              href="/about" 
+              href="/#about" 
               className="px-3 py-2 text-white hover:text-green-400 transition duration-200"
             >
               {t('about')}
             </Link>
             <Link 
-              href="#services" 
+              href="/#services" 
               className="px-3 py-2 text-white hover:text-green-400 transition duration-200"
             >
               {t('services')}
             </Link>
             
             <Link 
-              href="/project" 
+              href="/#project" 
               className="px-3 py-2 text-white hover:text-green-400 transition duration-200"
             >
               {t('project')}
             </Link>
 
             <Link 
-              href="/contact" 
+              href="/#contact" 
+              onClick={(e) => {
+                e.preventDefault();
+                const contactSection = document.getElementById("contact");
+                if (contactSection) {
+                  const offset = 300;
+                  const topPosition =
+                    contactSection.getBoundingClientRect().top + window.scrollY - offset;
+                  window.scrollTo({ top: topPosition, behavior: "smooth" });
+                }
+              }}
               className="px-3 py-2 text-white hover:text-green-400 transition duration-200"
             >
               {t('contact')}

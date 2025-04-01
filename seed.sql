@@ -37,3 +37,49 @@ VALUES
     '{"facebook": "https://facebook.com", "twitter": "https://twitter.com", "linkedin": "https://linkedin.com"}'
   )
 ON CONFLICT DO NOTHING;
+
+-- Seed initial services data
+INSERT INTO services (title, slug, short_description, description, icon) VALUES
+(
+  '{"en": "Web Design", "ar": "تصميم الويب"}',
+  'web-design',
+  '{"en": "Habitant risus facilisis vitae curabitur hac nullam.", "ar": "هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى."}',
+  '{"en": "Netus condimentum erat vestibulum sollicitudin sem tempor lacinia. Torquent fringilla facilisi placerat magna pellentesque facilisis nisi faucibus.", "ar": "هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص أو شكل توضع الفقرات."}',
+  'Globe'
+),
+(
+  '{"en": "Web Development", "ar": "تطوير الويب"}',
+  'web-development',
+  '{"en": "Habitant risus facilisis vitae curabitur hac nullam.", "ar": "هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى."}',
+  '{"en": "Netus condimentum erat vestibulum sollicitudin sem tempor lacinia. Torquent fringilla facilisi placerat magna pellentesque facilisis nisi faucibus.", "ar": "هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص أو شكل توضع الفقرات."}',
+  'Layers'
+),
+(
+  '{"en": "Digital Marketing", "ar": "التسويق الرقمي"}',
+  'digital-marketing',
+  '{"en": "Habitant risus facilisis vitae curabitur hac nullam.", "ar": "هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى."}',
+  '{"en": "Netus condimentum erat vestibulum sollicitudin sem tempor lacinia. Torquent fringilla facilisi placerat magna pellentesque facilisis nisi faucibus.", "ar": "هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص أو شكل توضع الفقرات."}',
+  'TrendingUp'
+),
+(
+  '{"en": "Visual Identity", "ar": "الهوية البصرية"}',
+  'visual-identity',
+  '{"en": "Habitant risus facilisis vitae curabitur hac nullam.", "ar": "هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى."}',
+  '{"en": "Netus condimentum erat vestibulum sollicitudin sem tempor lacinia. Torquent fringilla facilisi placerat magna pellentesque facilisis nisi faucibus.", "ar": "هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص أو شكل توضع الفقرات."}',
+  'Puzzle'
+),
+(
+  '{"en": "Consultation", "ar": "الاستشارات"}',
+  'consultation',
+  '{"en": "Habitant risus facilisis vitae curabitur hac nullam.", "ar": "هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى."}',
+  '{"en": "Netus condimentum erat vestibulum sollicitudin sem tempor lacinia. Torquent fringilla facilisi placerat magna pellentesque facilisis nisi faucibus.", "ar": "هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص أو شكل توضع الفقرات."}',
+  'MessageCircle'
+),
+(
+  '{"en": "Web Maintenance", "ar": "صيانة الويب"}',
+  'web-maintenance',
+  '{"en": "Habitant risus facilisis vitae curabitur hac nullam.", "ar": "هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى."}',
+  '{"en": "Netus condimentum erat vestibulum sollicitudin sem tempor lacinia. Torquent fringilla facilisi placerat magna pellentesque facilisis nisi faucibus.", "ar": "هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص أو شكل توضع الفقرات."}',
+  'Settings'
+)
+ON CONFLICT (slug) DO NOTHING;

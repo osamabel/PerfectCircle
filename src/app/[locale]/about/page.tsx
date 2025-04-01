@@ -18,7 +18,7 @@ export default function AboutSection() {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-[#151515] text-white">
+    <section id='about' className="py-16 md:py-24 bg-[#151515] text-white">
       <div className="container mx-auto px-4">
         <div className="flex flex-col lg:flex-row items-center gap-12">
           {/* Left side - Features list with image */}
