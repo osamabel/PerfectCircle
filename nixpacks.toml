@@ -13,6 +13,3 @@ cmds = ["node scripts/setup-db.js"]
 
 [start]
 cmd = "npm run start"
-
-[env]
-NODE_ENV = "production"
