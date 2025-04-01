@@ -119,7 +119,7 @@ export default function Header() {
             </Link>
 
             <Link 
-              href="/blogs" 
+              href="/#blogs" 
               className="px-3 py-2 text-white hover:text-green-400 transition duration-200"
             >
               {t('blogs')}

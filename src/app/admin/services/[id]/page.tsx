@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { Service } from '@/lib/models/service';
@@ -16,7 +16,8 @@ const availableIcons = [
   'Settings'
 ];
 
-export default function EditServicePage({ params }: { params: { id: string } }) {
+export default function EditServicePage() {
+  const params = useParams();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);

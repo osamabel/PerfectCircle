@@ -1,10 +1,10 @@
-// src/app/api/projects/[id]/publish/route.ts
+// src/app/api/blogs/[id]/publish/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { getProjectById, publishProject, unpublishProject } from '@/lib/models/project';
+import { getBlogPostById, publishBlogPost, unpublishBlogPost } from '@/lib/models/blog';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 
-// POST /api/projects/[id]/publish - Publish a project
+// POST /api/blogs/[id]/publish - Publish a blog post
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -22,29 +22,29 @@ export async function POST(
     // Await the params to get the id
     const { id } = await params;
     
-    // Check if project exists
-    const existingProject = await getProjectById(id);
-    if (!existingProject) {
+    // Check if blog post exists
+    const existingPost = await getBlogPostById(id);
+    if (!existingPost) {
       return NextResponse.json(
-        { error: 'Project not found' },
+        { error: 'Blog post not found' },
         { status: 404 }
       );
     }
     
-    // Publish project
-    const updatedProject = await publishProject(id);
+    // Publish blog post
+    const updatedPost = await publishBlogPost(id);
     
-    return NextResponse.json(updatedProject);
+    return NextResponse.json(updatedPost);
   } catch (error) {
-    console.error('Error publishing project:', error);
+    console.error('Error publishing blog post:', error);
     return NextResponse.json(
-      { error: 'Failed to publish project' },
+      { error: 'Failed to publish blog post' },
       { status: 500 }
     );
   }
 }
 
-// DELETE /api/projects/[id]/publish - Unpublish a project
+// DELETE /api/blogs/[id]/publish - Unpublish a blog post
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -62,23 +62,23 @@ export async function DELETE(
     // Await the params to get the id
     const { id } = await params;
     
-    // Check if project exists
-    const existingProject = await getProjectById(id);
-    if (!existingProject) {
+    // Check if blog post exists
+    const existingPost = await getBlogPostById(id);
+    if (!existingPost) {
       return NextResponse.json(
-        { error: 'Project not found' },
+        { error: 'Blog post not found' },
         { status: 404 }
       );
     }
     
-    // Unpublish project
-    const updatedProject = await unpublishProject(id);
+    // Unpublish blog post
+    const updatedPost = await unpublishBlogPost(id);
     
-    return NextResponse.json(updatedProject);
+    return NextResponse.json(updatedPost);
   } catch (error) {
-    console.error('Error unpublishing project:', error);
+    console.error('Error unpublishing blog post:', error);
     return NextResponse.json(
-      { error: 'Failed to unpublish project' },
+      { error: 'Failed to unpublish blog post' },
       { status: 500 }
     );
   }

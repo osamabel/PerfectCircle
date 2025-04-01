@@ -189,5 +189,18 @@
     "and": "و",
     "teamwork": "العمل الجماعي",
     "viewProfile": "عرض الملف الشخصي"
+  },
+  "Blogs": {
+    "blogTitle": "مدونتنا",
+    "latestBlog": "أحدث المقالات",
+    "recentPosts": "أحدث المنشورات",
+    "readMore": "قراءة المزيد",
+    "viewAll": "عرض جميع المقالات",
+    "backToBlog": "العودة إلى المدونة",
+    "relatedArticles": "مقالات ذات صلة",
+    "noArticles": "لا توجد مقالات متاحة حاليًا",
+    "searchResults": "نتائج البحث",
+    "noSearchResults": "لا توجد مقالات تطابق بحثك",
+    "clearSearch": "مسح البحث"
   }
 }

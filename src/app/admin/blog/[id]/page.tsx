@@ -6,70 +6,99 @@ import { ArrowLeft, Upload, X } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { uploadImage } from '@/lib/upload';
-import { TeamMember } from '@/lib/models/team';
 
-export default function EditTeamMemberPage() {
+interface BlogPost {
+  id: string;
+  title: Record<string, string>;
+  slug: string;
+  excerpt: Record<string, string>;
+  content: Record<string, string>;
+  featured_image: string;
+  author_id: string;
+  author?: {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+  };
+  status: string;
+  published_at: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export default function EditBlogPostPage() {
   const params = useParams();
-  const id = params?.id as string;
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   
   // Form data
-  const [name, setName] = useState('');
-  const [position, setPosition] = useState('');
-  const [image, setImage] = useState('');
+  const [titleEn, setTitleEn] = useState('');
+  const [titleAr, setTitleAr] = useState('');
+  const [slug, setSlug] = useState('');
+  const [excerptEn, setExcerptEn] = useState('');
+  const [excerptAr, setExcerptAr] = useState('');
+  const [contentEn, setContentEn] = useState('');
+  const [contentAr, setContentAr] = useState('');
+  const [status, setStatus] = useState('draft');
+  const [featuredImage, setFeaturedImage] = useState('');
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [facebook, setFacebook] = useState('');
-  const [twitter, setTwitter] = useState('');
-  const [linkedin, setLinkedin] = useState('');
-  const [instagram, setInstagram] = useState('');
   
-  // Fetch team member data
+  // Fetch blog post data
   useEffect(() => {
-    const fetchTeamMember = async () => {
+    const fetchBlogPost = async () => {
       try {
         setIsLoading(true);
         setError(null);
         
-        const response = await fetch(`/api/team/${id}`);
+        const response = await fetch(`/api/blogs/${params.id}`);
         
         if (!response.ok) {
           if (response.status === 404) {
-            throw new Error('Team member not found');
+            throw new Error('Blog post not found');
           }
-          throw new Error('Failed to fetch team member');
+          throw new Error('Failed to fetch blog post');
         }
         
-        const member: TeamMember = await response.json();
+        const post: BlogPost = await response.json();
         
         // Set form values
-        setName(member.name);
-        setPosition(member.position);
-        setImage(member.image);
-        
-        // Set social links if they exist
-        if (member.social_links) {
-          setFacebook(member.social_links.facebook || '');
-          setTwitter(member.social_links.twitter || '');
-          setLinkedin(member.social_links.linkedin || '');
-          setInstagram(member.social_links.instagram || '');
-        }
+        setTitleEn(post.title.en || '');
+        setTitleAr(post.title.ar || '');
+        setSlug(post.slug);
+        setExcerptEn(post.excerpt?.en || '');
+        setExcerptAr(post.excerpt?.ar || '');
+        setContentEn(post.content.en || '');
+        setContentAr(post.content.ar || '');
+        setStatus(post.status || 'draft');
+        setFeaturedImage(post.featured_image || '');
       } catch (err) {
         console.error(err);
-        setError('Error loading team member data. Please try again.');
+        setError('Error loading blog post data. Please try again.');
       } finally {
         setIsLoading(false);
       }
     };
     
-    fetchTeamMember();
-  }, [id]);
+    fetchBlogPost();
+  }, [params.id]);
+  
+  // Create slug from string
+  const createSlug = (text: string) => {
+    return text
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^\w\-]+/g, '')
+      .replace(/\-\-+/g, '-')
+      .replace(/^-+/, '')
+      .replace(/-+$/, '');
+  };
   
   // Handle image selection
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     
@@ -99,12 +128,17 @@ export default function EditTeamMemberPage() {
     }
   };
   
+  // Remove existing image
+  const removeExistingImage = () => {
+    setFeaturedImage('');
+  };
+  
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Validate required fields
-    if (!name || !position) {
+    if (!titleEn || !titleAr || !slug || !contentEn || !contentAr) {
       setError('Please fill in all required fields');
       return;
     }
@@ -113,26 +147,33 @@ export default function EditTeamMemberPage() {
       setIsSubmitting(true);
       setError(null);
       
-      // Update data object
-      const updateData: any = {
-        name,
-        position,
-        social_links: {
-          facebook: facebook || null,
-          twitter: twitter || null,
-          linkedin: linkedin || null,
-          instagram: instagram || null,
-        },
-      };
-      
-      // Upload new image if needed
+      // Upload new image if selected
+      let imageUrl = featuredImage;
       if (imageFile) {
-        const imageUrl = await uploadImage(imageFile);
-        updateData.image = imageUrl;
+        imageUrl = await uploadImage(imageFile);
       }
       
-      // Update the team member
-      const response = await fetch(`/api/team/${params.id}`, {
+      // Update data object
+      const updateData = {
+        title: {
+          en: titleEn,
+          ar: titleAr
+        },
+        slug,
+        excerpt: {
+          en: excerptEn,
+          ar: excerptAr
+        },
+        content: {
+          en: contentEn,
+          ar: contentAr
+        },
+        featured_image: imageUrl,
+        status
+      };
+      
+      // Update the blog post
+      const response = await fetch(`/api/blogs/${params.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -141,15 +182,15 @@ export default function EditTeamMemberPage() {
       });
       
       if (!response.ok) {
-        throw new Error('Failed to update team member');
+        throw new Error('Failed to update blog post');
       }
       
-      // Redirect to team members list
-      router.push('/admin/team');
+      // Redirect to blogs list
+      router.push('/admin/blog');
       router.refresh();
     } catch (err) {
       console.error(err);
-      setError('Error updating team member. Please try again.');
+      setError('Error updating blog post. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -169,12 +210,12 @@ export default function EditTeamMemberPage() {
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <Link
-            href="/admin/team"
+            href="/admin/blog"
             className="p-2 hover:bg-gray-100 rounded-full transition-colors"
           >
             <ArrowLeft size={20} />
           </Link>
-          <h1 className="text-2xl font-bold">Edit Team Member</h1>
+          <h1 className="text-2xl font-bold">Edit Blog Post</h1>
         </div>
       </div>
       
@@ -203,40 +244,74 @@ export default function EditTeamMemberPage() {
             
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                  Name <span className="text-red-500">*</span>
+                <label htmlFor="titleEn" className="block text-sm font-medium text-gray-700 mb-1">
+                  English Title <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
-                  id="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  id="titleEn"
+                  value={titleEn}
+                  onChange={(e) => setTitleEn(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                  placeholder="John Doe"
+                  placeholder="How to Build a Website"
                   required
                 />
               </div>
               
               <div>
-                <label htmlFor="position" className="block text-sm font-medium text-gray-700 mb-1">
-                  Position <span className="text-red-500">*</span>
+                <label htmlFor="titleAr" className="block text-sm font-medium text-gray-700 mb-1">
+                  Arabic Title <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
-                  id="position"
-                  value={position}
-                  onChange={(e) => setPosition(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                  placeholder="CEO, Designer, etc."
+                  id="titleAr"
+                  value={titleAr}
+                  onChange={(e) => setTitleAr(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 text-right"
+                  placeholder="كيفية بناء موقع ويب"
+                  dir="rtl"
                   required
                 />
               </div>
+              
+              <div>
+                <label htmlFor="slug" className="block text-sm font-medium text-gray-700 mb-1">
+                  URL Slug <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="slug"
+                  value={slug}
+                  onChange={(e) => setSlug(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                  placeholder="how-to-build-a-website"
+                  required
+                />
+                <p className="mt-1 text-xs text-gray-500">
+                  This will be used in the URL: /blog/{slug || 'example-slug'}
+                </p>
+              </div>
+              
+              <div>
+                <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1">
+                  Status
+                </label>
+                <select
+                  id="status"
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                >
+                  <option value="draft">Draft</option>
+                  <option value="published">Published</option>
+                </select>
+              </div>
             </div>
             
-            {/* Image upload */}
+            {/* Featured Image upload */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Profile Image
+                Featured Image
               </label>
               
               <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
@@ -245,7 +320,7 @@ export default function EditTeamMemberPage() {
                     <div className="relative w-40 h-40 mx-auto">
                       <Image
                         src={imagePreview}
-                        alt="Image preview"
+                        alt="New image preview"
                         fill
                         className="rounded-md object-cover"
                       />
@@ -259,15 +334,22 @@ export default function EditTeamMemberPage() {
                     </div>
                     <p className="text-xs text-gray-500">{imageFile?.name}</p>
                   </div>
-                ) : image ? (
+                ) : featuredImage ? (
                   <div className="space-y-2 text-center">
                     <div className="relative w-40 h-40 mx-auto">
                       <Image
-                        src={image}
-                        alt="Current image"
+                        src={featuredImage}
+                        alt="Current featured image"
                         fill
                         className="rounded-md object-cover"
                       />
+                      <button
+                        type="button"
+                        onClick={removeExistingImage}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                      >
+                        <X size={16} />
+                      </button>
                     </div>
                     <p className="text-xs text-gray-500">Current image</p>
                   </div>
@@ -310,64 +392,78 @@ export default function EditTeamMemberPage() {
             </div>
           </div>
           
-          {/* Social links section */}
+          {/* Excerpt section */}
           <div className="space-y-6">
-            <h2 className="text-lg font-medium border-b pb-2">Social Media Links</h2>
+            <h2 className="text-lg font-medium border-b pb-2">Excerpt</h2>
             
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
-                <label htmlFor="facebook" className="block text-sm font-medium text-gray-700 mb-1">
-                  Facebook
+                <label htmlFor="excerptEn" className="block text-sm font-medium text-gray-700 mb-1">
+                  English Excerpt
                 </label>
-                <input
-                  type="url"
-                  id="facebook"
-                  value={facebook}
-                  onChange={(e) => setFacebook(e.target.value)}
+                <textarea
+                  id="excerptEn"
+                  value={excerptEn}
+                  onChange={(e) => setExcerptEn(e.target.value)}
+                  rows={3}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                  placeholder="https://facebook.com/username"
+                  placeholder="A brief summary of the blog post"
+                />
+                <p className="mt-1 text-xs text-gray-500">
+                  A short summary of your post. If not provided, an excerpt will be generated from the content.
+                </p>
+              </div>
+              
+              <div>
+                <label htmlFor="excerptAr" className="block text-sm font-medium text-gray-700 mb-1">
+                  Arabic Excerpt
+                </label>
+                <textarea
+                  id="excerptAr"
+                  value={excerptAr}
+                  onChange={(e) => setExcerptAr(e.target.value)}
+                  rows={3}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 text-right"
+                  placeholder="ملخص موجز للمقالة"
+                  dir="rtl"
+                />
+              </div>
+            </div>
+          </div>
+          
+          {/* Content section */}
+          <div className="space-y-6">
+            <h2 className="text-lg font-medium border-b pb-2">Content</h2>
+            
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              <div>
+                <label htmlFor="contentEn" className="block text-sm font-medium text-gray-700 mb-1">
+                  English Content <span className="text-red-500">*</span>
+                </label>
+                <textarea
+                  id="contentEn"
+                  value={contentEn}
+                  onChange={(e) => setContentEn(e.target.value)}
+                  rows={10}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                  placeholder="Your blog post content here..."
+                  required
                 />
               </div>
               
               <div>
-                <label htmlFor="twitter" className="block text-sm font-medium text-gray-700 mb-1">
-                  Twitter
+                <label htmlFor="contentAr" className="block text-sm font-medium text-gray-700 mb-1">
+                  Arabic Content <span className="text-red-500">*</span>
                 </label>
-                <input
-                  type="url"
-                  id="twitter"
-                  value={twitter}
-                  onChange={(e) => setTwitter(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                  placeholder="https://twitter.com/username"
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="linkedin" className="block text-sm font-medium text-gray-700 mb-1">
-                  LinkedIn
-                </label>
-                <input
-                  type="url"
-                  id="linkedin"
-                  value={linkedin}
-                  onChange={(e) => setLinkedin(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                  placeholder="https://linkedin.com/in/username"
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="instagram" className="block text-sm font-medium text-gray-700 mb-1">
-                  Instagram
-                </label>
-                <input
-                  type="url"
-                  id="instagram"
-                  value={instagram}
-                  onChange={(e) => setInstagram(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                  placeholder="https://instagram.com/username"
+                <textarea
+                  id="contentAr"
+                  value={contentAr}
+                  onChange={(e) => setContentAr(e.target.value)}
+                  rows={10}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 text-right"
+                  placeholder="محتوى مقال المدونة هنا..."
+                  dir="rtl"
+                  required
                 />
               </div>
             </div>
@@ -377,7 +473,7 @@ export default function EditTeamMemberPage() {
         {/* Form actions */}
         <div className="px-6 py-4 bg-gray-50 text-right space-x-4">
           <Link
-            href="/admin/team"
+            href="/admin/blog"
             className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
           >
             Cancel
@@ -389,7 +485,7 @@ export default function EditTeamMemberPage() {
               isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
             }`}
           >
-            {isSubmitting ? 'Saving...' : 'Update Team Member'}
+            {isSubmitting ? 'Saving...' : 'Update Blog Post'}
           </button>
         </div>
       </form>

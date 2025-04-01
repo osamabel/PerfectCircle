@@ -10,6 +10,7 @@ export default function AdminDashboard() {
   const [teamCount, setTeamCount] = useState(0);
   const [servicesCount, setServicesCount] = useState(0);
   const [projectsCount, setProjectsCount] = useState(0);
+  const [blogCount, setBlogCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   
   // Fetch data counts
@@ -38,6 +39,13 @@ export default function AdminDashboard() {
           const projectsData = await projectsResponse.json();
           setProjectsCount(projectsData.length);
         }
+
+        // Fetch blog posts count
+        const blogResponse = await fetch('/api/blogs');
+        if (blogResponse.ok) {
+          const blogData = await blogResponse.json();
+          setBlogCount(blogData.length);
+        }
       } catch (error) {
         console.error('Error fetching counts:', error);
       } finally {
@@ -53,7 +61,7 @@ export default function AdminDashboard() {
     { name: 'Team Members', count: teamCount, icon: Users, href: '/admin/team', color: 'bg-green-100 text-green-800' },
     { name: 'Services', count: servicesCount, icon: SquareMenu, href: '/admin/services', color: 'bg-blue-100 text-blue-800' },
     { name: 'Projects', count: projectsCount, icon: Layout, href: '/admin/projects', color: 'bg-indigo-100 text-indigo-800' },
-    { name: 'Blog Posts', count: 0, icon: FileText, href: '/admin/blog', color: 'bg-purple-100 text-purple-800' },
+    { name: 'Blog Posts', count: blogCount, icon: FileText, href: '/admin/blog', color: 'bg-purple-100 text-purple-800' },
   ];
   
   return (

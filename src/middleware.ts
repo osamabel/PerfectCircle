@@ -13,7 +13,11 @@ export default async function middleware(request: NextRequest) {
   
   // For admin routes, check authentication
   if (isAdminRoute) {
-    const token = await getToken({ req: request });
+    // Use the secret from env for token verification
+    const token = await getToken({ 
+      req: request,
+      secret: process.env.NEXTAUTH_SECRET
+    });
     
     // If not logged in or not an admin, redirect to login
     if (!token || token.role !== 'admin') {

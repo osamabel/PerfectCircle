@@ -1,14 +1,15 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { ArrowLeft, Upload, X } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { uploadImage } from '@/lib/upload';
 import { Project } from '@/lib/models/project';
 
-export default function EditProjectPage({ params }: { params: { id: string } }) {
+export default function EditProjectPage() {
+  const params = useParams();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);

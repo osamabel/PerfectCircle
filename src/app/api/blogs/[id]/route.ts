@@ -1,10 +1,10 @@
-// src/app/api/projects/[id]/route.ts
+// src/app/api/blogs/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { getProjectById, updateProject, deleteProject, publishProject, unpublishProject } from '@/lib/models/project';
+import { getBlogPostById, updateBlogPost, deleteBlogPost } from '@/lib/models/blog';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 
-// GET /api/projects/[id] - Get a specific project
+// GET /api/blogs/[id] - Get a specific blog post
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -13,26 +13,26 @@ export async function GET(
     // Await the params to get the id
     const { id } = await params;
     
-    const project = await getProjectById(id);
+    const blogPost = await getBlogPostById(id);
     
-    if (!project) {
+    if (!blogPost) {
       return NextResponse.json(
-        { error: 'Project not found' },
+        { error: 'Blog post not found' },
         { status: 404 }
       );
     }
     
-    return NextResponse.json(project);
+    return NextResponse.json(blogPost);
   } catch (error) {
-    console.error('Error fetching project:', error);
+    console.error('Error fetching blog post:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch project' },
+      { error: 'Failed to fetch blog post' },
       { status: 500 }
     );
   }
 }
 
-// PUT /api/projects/[id] - Update a project
+// PUT /api/blogs/[id] - Update a blog post
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -52,34 +52,34 @@ export async function PUT(
     
     const data = await request.json();
     
-    // Check if project exists
-    const existingProject = await getProjectById(id);
-    if (!existingProject) {
+    // Check if blog post exists
+    const existingPost = await getBlogPostById(id);
+    if (!existingPost) {
       return NextResponse.json(
-        { error: 'Project not found' },
+        { error: 'Blog post not found' },
         { status: 404 }
       );
     }
     
     // If publishing, set published_at if not already set
-    if (data.status === 'published' && existingProject.status !== 'published') {
+    if (data.status === 'published' && existingPost.status !== 'published') {
       data.published_at = new Date();
     }
     
-    // Update project
-    const updatedProject = await updateProject(id, data);
+    // Update blog post
+    const updatedPost = await updateBlogPost(id, data);
     
-    return NextResponse.json(updatedProject);
+    return NextResponse.json(updatedPost);
   } catch (error) {
-    console.error('Error updating project:', error);
+    console.error('Error updating blog post:', error);
     return NextResponse.json(
-      { error: 'Failed to update project' },
+      { error: 'Failed to update blog post' },
       { status: 500 }
     );
   }
 }
 
-// DELETE /api/projects/[id] - Delete a project
+// DELETE /api/blogs/[id] - Delete a blog post
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -97,23 +97,23 @@ export async function DELETE(
     // Await the params to get the id
     const { id } = await params;
     
-    // Check if project exists
-    const existingProject = await getProjectById(id);
-    if (!existingProject) {
+    // Check if blog post exists
+    const existingPost = await getBlogPostById(id);
+    if (!existingPost) {
       return NextResponse.json(
-        { error: 'Project not found' },
+        { error: 'Blog post not found' },
         { status: 404 }
       );
     }
     
-    // Delete project
-    const deletedProject = await deleteProject(id);
+    // Delete blog post
+    const deletedPost = await deleteBlogPost(id);
     
-    return NextResponse.json(deletedProject);
+    return NextResponse.json(deletedPost);
   } catch (error) {
-    console.error('Error deleting project:', error);
+    console.error('Error deleting blog post:', error);
     return NextResponse.json(
-      { error: 'Failed to delete project' },
+      { error: 'Failed to delete blog post' },
       { status: 500 }
     );
   }

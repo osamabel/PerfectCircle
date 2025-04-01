@@ -10,9 +10,9 @@ import Image from 'next/image';
 import { ArrowLeft, Calendar } from 'lucide-react';
 import { Project } from '@/lib/models/project';
 
-export default function ProjectDetailPage({ params }: { params: { slug: string } }) {
-  const { slug } = useParams<{ slug: string }>();
-  const locale = useLocale();
+export default function ProjectDetailPage() {
+  const params = useParams();
+  const slug = params?.slug as string;  const locale = useLocale();
   const t = useTranslations('Projects');
   const [project, setProject] = useState<Project | null>(null);
   const [isLoading, setIsLoading] = useState(true);

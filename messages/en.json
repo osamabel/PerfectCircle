@@ -189,5 +189,18 @@
     "and": "and",
     "teamwork": "teamwork",
     "viewProfile": "View Profile"
+  },
+  "Blogs": {
+    "blogTitle": "Our Blog",
+    "latestBlog": "LATEST BLOG",
+    "recentPosts": "Recent Posts",
+    "readMore": "Read More",
+    "viewAll": "View All Posts",
+    "backToBlog": "Back to Blog",
+    "relatedArticles": "Related Articles",
+    "noArticles": "No articles available at the moment",
+    "searchResults": "Search Results",
+    "noSearchResults": "No articles match your search",
+    "clearSearch": "Clear search"
   }
 }

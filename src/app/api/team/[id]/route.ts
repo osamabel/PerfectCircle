@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getTeamMemberById, updateTeamMember, deleteTeamMember } from '@/lib/models/team';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/lib/auth';
 
 // GET /api/team/[id] - Get a specific team member
 export async function GET(

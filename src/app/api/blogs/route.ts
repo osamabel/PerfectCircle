@@ -1,24 +1,24 @@
-// src/app/api/projects/route.ts
+// src/app/api/blogs/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { getAllProjects, createProject } from '@/lib/models/project';
+import { getAllBlogPosts, createBlogPost } from '@/lib/models/blog';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 
-// GET /api/projects - Get all projects
+// GET /api/blogs - Get all blog posts
 export async function GET() {
   try {
-    const projects = await getAllProjects();
-    return NextResponse.json(projects);
+    const blogPosts = await getAllBlogPosts();
+    return NextResponse.json(blogPosts);
   } catch (error) {
-    console.error('Error fetching projects:', error);
+    console.error('Error fetching blog posts:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch projects' },
+      { error: 'Failed to fetch blog posts' },
       { status: 500 }
     );
   }
 }
 
-// POST /api/projects - Create a new project
+// POST /api/blogs - Create a new blog post
 export async function POST(request: NextRequest) {
   try {
     // Check if user is authenticated and is admin
@@ -33,42 +33,41 @@ export async function POST(request: NextRequest) {
     const data = await request.json();
     
     // Validate required fields
-    if (!data.title || !data.slug || !data.description || !data.content) {
+    if (!data.title || !data.slug || !data.content) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
       );
     }
     
-    // Check if title and descriptions are objects with locale keys
-    if (typeof data.title !== 'object' || typeof data.description !== 'object' || typeof data.content !== 'object') {
+    // Check if title and content are objects with locale keys
+    if (typeof data.title !== 'object' || typeof data.content !== 'object') {
       return NextResponse.json(
-        { error: 'Title, description, and content must be objects with locale keys' },
+        { error: 'Title and content must be objects with locale keys' },
         { status: 400 }
       );
     }
     
     // Set defaults for optional fields
-    const projectData = {
+    const blogPost = {
       title: data.title,
       slug: data.slug,
-      description: data.description,
+      excerpt: data.excerpt || {},
       content: data.content,
       featured_image: data.featured_image || '',
-      client: data.client || '',
-      category: data.category || '',
+      author_id: session.user.id, // Use the authenticated user's ID as the author
       status: data.status || 'draft',
       published_at: data.status === 'published' ? new Date() : null
     };
     
-    // Create project
-    const project = await createProject(projectData);
+    // Create blog post
+    const post = await createBlogPost(blogPost);
     
-    return NextResponse.json(project, { status: 201 });
+    return NextResponse.json(post, { status: 201 });
   } catch (error) {
-    console.error('Error creating project:', error);
+    console.error('Error creating blog post:', error);
     return NextResponse.json(
-      { error: 'Failed to create project' },
+      { error: 'Failed to create blog post' },
       { status: 500 }
     );
   }

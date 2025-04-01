@@ -9,8 +9,9 @@ import Footer from '@/components/Footer';
 import { Service } from '@/lib/models/service';
 import * as LucideIcons from 'lucide-react';
 
-export default function ServiceDetailPage({ params }: { params: { slug: string } }) {
-  const { slug } = useParams<{ slug: string }>();
+export default function ServiceDetailPage() {
+  const params = useParams();
+  const slug = params?.slug as string;
   const locale = useLocale();
   const [service, setService] = useState<Service | null>(null);
   const [isLoading, setIsLoading] = useState(true);
