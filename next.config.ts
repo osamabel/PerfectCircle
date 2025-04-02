@@ -17,14 +17,6 @@ const nextConfig: NextConfig = {
         ],
     },
     output: 'standalone',
-    async rewrites() {
-      return [
-        {
-          source: '/uploads/:path*',
-          destination: `${process.cwd()}/public/uploads/:path*`,
-        },
-      ];
-    },
 };
  
 const withNextIntl = createNextIntlPlugin();
