@@ -76,27 +76,51 @@ export default function TeamSection() {
   }, []);
 
   // Navigation functions
+  // const nextSlide = () => {
+  //   setCurrentSlide(prev => 
+  //     prev === teamMembers.length - slidesToShow ? 0 : prev + 1
+  //   );
+  // };
   const nextSlide = () => {
-    setCurrentSlide(prev => 
-      prev === teamMembers.length - slidesToShow ? 0 : prev + 1
-    );
+    if (currentSlide + slidesToShow < teamMembers.length) {
+      setCurrentSlide(prev => prev + 1);
+    } else {
+      // Optional: loop back to beginning
+      setCurrentSlide(0);
+    }
   };
 
+  // const prevSlide = () => {
+  //   setCurrentSlide(prev => 
+  //     prev === 0 ? teamMembers.length - slidesToShow : prev - 1
+  //   );
+  // };
   const prevSlide = () => {
-    setCurrentSlide(prev => 
-      prev === 0 ? teamMembers.length - slidesToShow : prev - 1
-    );
+    if (currentSlide > 0) {
+      setCurrentSlide(prev => prev - 1);
+    } else {
+      // Optional: loop to end
+      setCurrentSlide(Math.max(0, teamMembers.length - slidesToShow));
+    }
   };
-
+  const activeSlideIndex = Math.min(
+    Math.floor(currentSlide / slidesToShow),
+    Math.ceil(teamMembers.length / slidesToShow) - 1
+  );
   // Calculate visible members
-  const visibleMembers = teamMembers.slice(0, Math.min(slidesToShow, teamMembers.length));
+  // const visibleMembers = teamMembers.slice(0, Math.min(slidesToShow, teamMembers.length));
 
   // const visibleMembers = teamMembers.length 
   //   ? (teamMembers.slice(currentSlide, currentSlide + slidesToShow).length < slidesToShow 
   //     ? [...teamMembers.slice(currentSlide), ...teamMembers.slice(0, slidesToShow - (teamMembers.length - currentSlide))]
   //     : teamMembers.slice(currentSlide, currentSlide + slidesToShow))
   //   : [];
-
+  const visibleMembers = teamMembers.length > 0
+  ? teamMembers.slice(
+      currentSlide,
+      Math.min(currentSlide + slidesToShow, teamMembers.length)
+    )
+  : [];
   return (
     <section className="bg-black text-white py-16 md:py-24">
       <div className="container mx-auto px-4">
@@ -256,7 +280,7 @@ export default function TeamSection() {
             {teamMembers.length > slidesToShow && (
               <div className="flex justify-center mt-8 space-x-2">
                 {Array.from({ length: Math.ceil(teamMembers.length / slidesToShow) }).map((_, index) => {
-                  const isActive = index === Math.floor(currentSlide / slidesToShow);
+                  const isActive = index === activeSlideIndex;
                   return (
                     <button
                       key={index}
