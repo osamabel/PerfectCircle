@@ -42,6 +42,7 @@ export default function TeamSection() {
         }
         
         const data = await response.json();
+        console.log(">>>>>> ",data)
         setTeamMembers(data);
       } catch (err) {
         console.error('Error loading team members:', err);
