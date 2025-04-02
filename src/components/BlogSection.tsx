@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
 import { ArrowRight, Calendar } from 'lucide-react';
+import CustomImage from './CustomImageProps';
 
 interface BlogPost {
   id: string;
@@ -125,7 +126,7 @@ export default function BlogSection() {
               {/* Featured Image */}
               <div className="relative h-48 overflow-hidden">
                 {post.featured_image ? (
-                  <Image
+                  <CustomImage
                     src={post.featured_image}
                     alt={post.title[locale] || ''}
                     fill

@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { uploadImage } from '@/lib/upload';
 import { TeamMember } from '@/lib/models/team';
+import CustomImage from '@/components/CustomImageProps';
 
 export default function EditTeamMemberPage() {
   const params = useParams();
@@ -243,7 +244,7 @@ export default function EditTeamMemberPage() {
                 {imagePreview ? (
                   <div className="space-y-2 text-center">
                     <div className="relative w-40 h-40 mx-auto">
-                      <Image
+                      <CustomImage
                         src={imagePreview}
                         alt="Image preview"
                         fill

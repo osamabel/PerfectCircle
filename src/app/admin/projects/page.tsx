@@ -5,6 +5,7 @@ import { Plus, Edit, Trash2, RefreshCw, Search, Eye, EyeOff } from 'lucide-react
 import Link from 'next/link';
 import Image from 'next/image';
 import { Project } from '@/lib/models/project';
+import CustomImage from '@/components/CustomImageProps';
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -205,15 +206,8 @@ export default function ProjectsPage() {
                       <div className="flex items-center">
                         {project.featured_image && (
                           <div className="h-10 w-10 flex-shrink-0 mr-4">
-                            <Image 
+                            <CustomImage 
                               src={project.featured_image} 
-                              alt={project.title.en || 'Project image'}
-                              width={40}
-                              height={40}
-                              className="h-10 w-10 rounded object-cover"
-                            />
-                            <Image 
-                              src={`/api/check-file?path=${project.featured_image}`} 
                               alt={project.title.en || 'Project image'}
                               width={40}
                               height={40}

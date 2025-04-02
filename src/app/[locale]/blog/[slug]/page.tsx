@@ -8,6 +8,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Image from 'next/image';
 import { ArrowLeft, Calendar, User } from 'lucide-react';
+import CustomImage from '@/components/CustomImageProps';
 
 interface BlogPost {
   id: string;
@@ -146,7 +147,7 @@ export default function BlogPostDetailPage() {
         {/* Featured image */}
         <div className="w-full relative h-[50vh] bg-[gray-900]">
           {post.featured_image ? (
-            <Image
+            <CustomImage
               src={post.featured_image}
               alt={post.title[locale] || ''}
               fill
@@ -230,7 +231,7 @@ export default function BlogPostDetailPage() {
                     {/* Featured Image */}
                     <div className="relative h-48 overflow-hidden">
                       {relatedPost.featured_image ? (
-                        <Image
+                        <CustomImage
                           src={relatedPost.featured_image}
                           alt={relatedPost.title[locale] || ''}
                           fill

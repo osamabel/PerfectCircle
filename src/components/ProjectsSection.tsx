@@ -6,6 +6,7 @@ import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 import { Project } from '@/lib/models/project';
+import CustomImage from './CustomImageProps';
 
 export default function ProjectsSection() {
   const locale = useLocale();
@@ -94,7 +95,7 @@ export default function ProjectsSection() {
                 <div className="aspect-video w-full overflow-hidden bg-[#151515] h-[500px]">
                   <div className="h-full w-full relative">
                     {project.featured_image ? (
-                      <Image
+                      <CustomImage
                         src={project.featured_image}
                         alt={project.title[locale] || ''}
                         fill

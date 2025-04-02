@@ -5,6 +5,7 @@ import { Plus, Edit, Trash2, RefreshCw, Search, Eye, EyeOff } from 'lucide-react
 import Link from 'next/link';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
+import CustomImage from '@/components/CustomImageProps';
 
 interface BlogPost {
   id: string;
@@ -235,7 +236,7 @@ export default function BlogsPage() {
                       <div className="flex items-center">
                         {post.featured_image && (
                           <div className="h-10 w-10 flex-shrink-0 mr-4">
-                            <Image 
+                            <CustomImage 
                               src={post.featured_image} 
                               alt={post.title.en || 'Blog post image'}
                               width={40}

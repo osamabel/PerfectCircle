@@ -9,6 +9,7 @@ import Footer from '@/components/Footer';
 import Image from 'next/image';
 import { ArrowLeft, Calendar } from 'lucide-react';
 import { Project } from '@/lib/models/project';
+import CustomImage from '@/components/CustomImageProps';
 
 export default function ProjectDetailPage() {
   const params = useParams();
@@ -108,7 +109,7 @@ export default function ProjectDetailPage() {
         {/* Hero section with featured image */}
         <div className="w-full relative h-[50vh] bg-[#242424]">
           {project.featured_image ? (
-            <Image
+            <CustomImage
               src={project.featured_image}
               alt={project.title[locale] || ''}
               fill

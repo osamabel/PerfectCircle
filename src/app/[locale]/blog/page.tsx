@@ -7,6 +7,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Image from 'next/image';
 import { ArrowRight, Calendar, Search } from 'lucide-react';
+import CustomImage from '@/components/CustomImageProps';
 
 interface BlogPost {
   id: string;
@@ -184,7 +185,7 @@ export default function BlogPage() {
                     {/* Featured Image */}
                     <div className="relative h-48 overflow-hidden">
                       {post.featured_image ? (
-                        <Image
+                        <CustomImage
                           src={post.featured_image}
                           alt={post.title[locale] || ''}
                           fill
