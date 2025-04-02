@@ -89,11 +89,13 @@ export default function TeamSection() {
   };
 
   // Calculate visible members
-  const visibleMembers = teamMembers.length 
-    ? (teamMembers.slice(currentSlide, currentSlide + slidesToShow).length < slidesToShow 
-      ? [...teamMembers.slice(currentSlide), ...teamMembers.slice(0, slidesToShow - (teamMembers.length - currentSlide))]
-      : teamMembers.slice(currentSlide, currentSlide + slidesToShow))
-    : [];
+  const visibleMembers = teamMembers.slice(0, Math.min(slidesToShow, teamMembers.length));
+
+  // const visibleMembers = teamMembers.length 
+  //   ? (teamMembers.slice(currentSlide, currentSlide + slidesToShow).length < slidesToShow 
+  //     ? [...teamMembers.slice(currentSlide), ...teamMembers.slice(0, slidesToShow - (teamMembers.length - currentSlide))]
+  //     : teamMembers.slice(currentSlide, currentSlide + slidesToShow))
+  //   : [];
 
   return (
     <section className="bg-black text-white py-16 md:py-24">
