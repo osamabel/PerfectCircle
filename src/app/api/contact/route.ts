@@ -1,4 +1,3 @@
-// src/app/api/contact/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
@@ -14,44 +13,37 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // // Create a transporter using Gmail
-    // const transporter = nodemailer.createTransport({
-    //   service: 'gmail',
-    //   auth: {
-    //     user: process.env.EMAIL_USER, // Your Gmail address
-    //     pass: process.env.EMAIL_APP_PASSWORD, // Your Gmail app password
-    //   },
-    // });
+    // Create transporter using Brevo SMTP
     const transporter = nodemailer.createTransport({
-      host: 'smtp.sendgrid.net',
-      port: 587,
+      host: process.env.BREVO_SMTP_HOST || 'smtp-relay.brevo.com',
+      port: parseInt(process.env.BREVO_SMTP_PORT || '587'),
+      secure: false, // true for 465, false for other ports
       auth: {
-        user: 'apikey', // Literally the string 'apikey'
-        pass: process.env.SENDGRID_API_KEY,
+        user: process.env.BREVO_SMTP_USER,
+        pass: process.env.BREVO_SMTP_KEY,
       },
+      tls: {
+        // Some servers may require this
+        ciphers: 'SSLv3',
+        rejectUnauthorized: false
+      }
     });
-    // Set up email data
+    
+    // Email content (same as before)
     const mailOptions = {
-      from: `"Website Contact Form"`,
-      to: process.env.CONTACT_EMAIL || process.env.EMAIL_USER, // Where you want to receive emails
+      from: `"Website Contact Form" <${process.env.BREVO_SENDER_EMAIL || process.env.BREVO_SMTP_USER}>`,
+      to: process.env.CONTACT_EMAIL, // Where to receive submissions
       replyTo: data.email,
       subject: `New Contact Form Submission from ${data.name}`,
-      text: `
-      Name: ${data.name}
-      Company: ${data.company || 'Not provided'}
-      Phone: ${data.phone}
-      Email: ${data.email}
-      Message:
-      ${data.message}
-            `,
-            html: `
-      <h2>New Contact Form Submission</h2>
-      <p><strong>Name:</strong> ${data.name}</p>
-      <p><strong>Company:</strong> ${data.company || 'Not provided'}</p>
-      <p><strong>Phone:</strong> ${data.phone}</p>
-      <p><strong>Email:</strong> ${data.email}</p>
-      <p><strong>Message:</strong></p>
-      <p>${data.message.replace(/\n/g, '<br>')}</p>
+      text: `Name: ${data.name}\nCompany: ${data.company || 'N/A'}\nPhone: ${data.phone}\nEmail: ${data.email}\n\nMessage:\n${data.message}`,
+      html: `
+        <h2>New Contact Form Submission</h2>
+        <p><strong>Name:</strong> ${data.name}</p>
+        <p><strong>Company:</strong> ${data.company || 'N/A'}</p>
+        <p><strong>Phone:</strong> ${data.phone}</p>
+        <p><strong>Email:</strong> ${data.email}</p>
+        <p><strong>Message:</strong></p>
+        <p>${data.message.replace(/\n/g, '<br>')}</p>
       `,
     };
     
@@ -60,10 +52,22 @@ export async function POST(request: NextRequest) {
     console.log('Message sent:', info.messageId);
     
     return NextResponse.json({ success: true, messageId: info.messageId });
+    
   } catch (error) {
-    console.error('Error sending email:', error);
+    console.error('Full error details:', {
+      message: (error as Error).message,
+      stack: (error as Error).stack,
+      response: (error as any).response,
+      code: (error as any).code,
+    });
+    
     return NextResponse.json(
-      { error: 'Failed to send email', details: (error as Error).message },
+      { 
+        error: 'Failed to send email',
+        details: process.env.NODE_ENV === 'development' 
+          ? (error as Error).message 
+          : 'Could not send message'
+      },
       { status: 500 }
     );
   }
