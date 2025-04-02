@@ -12,4 +12,4 @@ dependsOn = ["build"]
 cmds = ["node scripts/setup-db.js"]
 
 [start]
-cmd = "npm run start"
+cmd = "node server.js"

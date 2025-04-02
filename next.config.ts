@@ -2,15 +2,23 @@ import {NextConfig} from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
  
 const nextConfig: NextConfig = {
+    output: 'standalone',
     images: {
-        domains: [
-            'template.creativemox.com',
-        ],
-        dangerouslyAllowSVG: true,
-        contentDispositionType: 'attachment',
-        contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+      domains: [], // Keep for backward compatibility
+      remotePatterns: [
+        {
+          protocol: 'https',
+          hostname: 'template.creativemox.com',
+        },
+        {
+          protocol: 'http',
+          hostname: '**.64.226.67.120.sslip.io',
+        }
+      ],
     },
-    output: 'standalone', 
+    async rewrites() {
+        return [];
+      },
 };
  
 const withNextIntl = createNextIntlPlugin();
