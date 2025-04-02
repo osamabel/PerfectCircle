@@ -212,6 +212,20 @@ export default function ProjectsPage() {
                               height={40}
                               className="h-10 w-10 rounded object-cover"
                             />
+                            <Image 
+                              src={`api/${project.featured_image}`} 
+                              alt={project.title.en || 'Project image'}
+                              width={40}
+                              height={40}
+                              className="h-10 w-10 rounded object-cover"
+                            />
+                            <Image 
+                              src={`api${project.featured_image}`} 
+                              alt={project.title.en || 'Project image'}
+                              width={40}
+                              height={40}
+                              className="h-10 w-10 rounded object-cover"
+                            />
                           </div>
                         )}
                         <div>
