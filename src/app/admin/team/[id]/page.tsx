@@ -263,7 +263,7 @@ export default function EditTeamMemberPage() {
                 ) : image ? (
                   <div className="space-y-2 text-center">
                     <div className="relative w-40 h-40 mx-auto">
-                      <Image
+                      <CustomImage
                         src={image}
                         alt="Current image"
                         fill

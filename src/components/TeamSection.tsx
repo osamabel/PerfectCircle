@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
+import CustomImage from './CustomImageProps';
 
 interface SocialLinks {
   facebook?: string;
@@ -168,7 +169,7 @@ export default function TeamSection() {
                     {/* Member Image */}
                     <div className="aspect-square w-full">
                       <div className="relative h-full w-full">
-                          <Image
+                          <CustomImage
                           src={member.image}
                           alt={member.name}
                           fill
