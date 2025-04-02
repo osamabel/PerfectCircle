@@ -6,7 +6,11 @@ const nextConfig: NextConfig = {
         domains: [
             'template.creativemox.com',
         ],
+        dangerouslyAllowSVG: true,
+        contentDispositionType: 'attachment',
+        contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     },
+    output: 'standalone', 
 };
  
 const withNextIntl = createNextIntlPlugin();
