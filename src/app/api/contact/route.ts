@@ -14,37 +14,49 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // Create a transporter using Gmail
+    // // Create a transporter using Gmail
+    // const transporter = nodemailer.createTransport({
+    //   service: 'gmail',
+    //   auth: {
+    //     user: process.env.EMAIL_USER, // Your Gmail address
+    //     pass: process.env.EMAIL_APP_PASSWORD, // Your Gmail app password
+    //   },
+    // });
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true, // true for 465, false for other ports
       auth: {
-        user: process.env.EMAIL_USER || 'osamaalpha1997@gmail.com', // Your Gmail address
-        pass: process.env.EMAIL_APP_PASSWORD || 'afpy qdun flce hjww', // Your Gmail app password
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_APP_PASSWORD,
       },
+      tls: {
+        // Needed for some production environments
+        rejectUnauthorized: false
+      }
     });
-    
     // Set up email data
     const mailOptions = {
-      from: `"Website Contact Form" <${process.env.EMAIL_USER}>`,
+      from: `"Website Contact Form"`,
       to: process.env.CONTACT_EMAIL || process.env.EMAIL_USER, // Where you want to receive emails
       replyTo: data.email,
       subject: `New Contact Form Submission from ${data.name}`,
       text: `
-Name: ${data.name}
-Company: ${data.company || 'Not provided'}
-Phone: ${data.phone}
-Email: ${data.email}
-Message:
-${data.message}
-      `,
-      html: `
-<h2>New Contact Form Submission</h2>
-<p><strong>Name:</strong> ${data.name}</p>
-<p><strong>Company:</strong> ${data.company || 'Not provided'}</p>
-<p><strong>Phone:</strong> ${data.phone}</p>
-<p><strong>Email:</strong> ${data.email}</p>
-<p><strong>Message:</strong></p>
-<p>${data.message.replace(/\n/g, '<br>')}</p>
+      Name: ${data.name}
+      Company: ${data.company || 'Not provided'}
+      Phone: ${data.phone}
+      Email: ${data.email}
+      Message:
+      ${data.message}
+            `,
+            html: `
+      <h2>New Contact Form Submission</h2>
+      <p><strong>Name:</strong> ${data.name}</p>
+      <p><strong>Company:</strong> ${data.company || 'Not provided'}</p>
+      <p><strong>Phone:</strong> ${data.phone}</p>
+      <p><strong>Email:</strong> ${data.email}</p>
+      <p><strong>Message:</strong></p>
+      <p>${data.message.replace(/\n/g, '<br>')}</p>
       `,
     };
     
