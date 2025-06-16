@@ -1,0 +1,65 @@
+version: "3.8"
+
+services:
+  # PostgreSQL Database (same as production)
+  db:
+    image: postgres:15-alpine
+    container_name: perfectcircle-db-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: perfectcircle
+      POSTGRES_USER: perfectcircle_user
+      POSTGRES_PASSWORD: perfectcircle_password
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+      - ./schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - perfectcircle-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U perfectcircle_user -d perfectcircle"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Next.js Development Server with Hot Reloading
+  app:
+    image: node:20-alpine
+    container_name: perfectcircle-app-dev
+    working_dir: /app
+    command: sh -c "npm install && npm run dev -- --hostname 0.0.0.0"
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      # Override specific variables for Docker networking
+      - DATABASE_URL=postgresql://perfectcircle_user:perfectcircle_password@db:5432/perfectcircle
+      - NODE_ENV=development
+      # Disable problematic features for Docker
+      - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
+      - NEXT_TELEMETRY_DISABLED=1
+    volumes:
+      - .:/app
+      - node_modules_cache:/app/node_modules
+      - next_cache:/app/.next
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - perfectcircle-network
+    # Enable proper file watching
+    stdin_open: true
+    tty: true
+
+volumes:
+  postgres_data_dev:
+  node_modules_cache:
+  next_cache:
+
+networks:
+  perfectcircle-network:
+    driver: bridge

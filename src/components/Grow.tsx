@@ -1,13 +1,14 @@
-'use client';
+"use client";
 
-import { useTranslations } from 'next-intl';
-import Image from 'next/image';
-import Link from 'next/link';
-import CompanyMarquee from './CompanyMarquee';
+import { useTranslations } from "next-intl";
+import Image from "next/image";
+import Link from "next/link";
+import CompanyMarquee from "./CompanyMarquee";
+import Button from "./Button";
 
 export default function Grow() {
-  const t = useTranslations('Grow');
-  
+  const t = useTranslations("Grow");
+
   return (
     <div className="relative">
       {/* Background Image */}
@@ -23,7 +24,7 @@ export default function Grow() {
           <div className="absolute inset-0 bg-gradient-to-r from-black/10 to-black/10"></div>
         </div>
       </div>
-      
+
       {/* Main Content */}
       <div className="relative z-10 min-h-screen flex flex-col">
         {/* Company Marquee at bottom */}
@@ -36,22 +37,17 @@ export default function Grow() {
               {/* Left Content - Card */}
               <div className="bg-black/30 backdrop-blur-sm p-14 rounded-xl">
                 <h1 className="text-4xl md:text-5xl font-medium text-white mb-4">
-                {t('title')} <br />
-                <span className="gradient-text"> {t('businessGrow')}</span>
+                  {t("title")} <br />
+                  <span className="gradient-text"> {t("businessGrow")}</span>
                 </h1>
-                
+
                 <p className="text-gray-300 mb-8 max-w-lg">
-                  {t('description')}
+                  {t("description")}
                 </p>
-                
-                <Link 
-                  href="/contact"
-                  className="inline-block bg-[#65DBA8] hover:bg-[#4cc492] text-black font-medium px-8 py-3 rounded-full transition duration-300"
-                >
-                  Learn more
-                </Link>
+
+                <Button link="/contact" content="Learn more" size="md" />
               </div>
-              
+
               {/* Right Content */}
               <div className="hidden lg:block">
                 {/* You can add additional content here if needed */}

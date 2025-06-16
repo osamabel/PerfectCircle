@@ -1,13 +1,14 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { ArrowLeft, Upload, X } from 'lucide-react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { uploadImage } from '@/lib/upload';
-import { Project } from '@/lib/models/project';
-import CustomImage from '@/components/CustomImageProps';
+import { useState, useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { ArrowLeft, Upload, X, Plus } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
+import { uploadImage } from "@/lib/upload";
+import { ProjectWithCategory } from "@/lib/models/project";
+import { Category } from "@/lib/models/category";
+import CustomImage from "@/components/CustomImageProps";
 
 export default function EditProjectPage() {
   const params = useParams();
@@ -15,96 +16,120 @@ export default function EditProjectPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+
   // Form data
-  const [titleEn, setTitleEn] = useState('');
-  const [titleAr, setTitleAr] = useState('');
-  const [slug, setSlug] = useState('');
-  const [descriptionEn, setDescriptionEn] = useState('');
-  const [descriptionAr, setDescriptionAr] = useState('');
-  const [contentEn, setContentEn] = useState('');
-  const [contentAr, setContentAr] = useState('');
-  const [client, setClient] = useState('');
-  const [category, setCategory] = useState('');
-  const [status, setStatus] = useState('draft');
-  const [featuredImage, setFeaturedImage] = useState('');
+  const [titleEn, setTitleEn] = useState("");
+  const [titleAr, setTitleAr] = useState("");
+  const [slug, setSlug] = useState("");
+  const [descriptionEn, setDescriptionEn] = useState("");
+  const [descriptionAr, setDescriptionAr] = useState("");
+  const [contentEn, setContentEn] = useState("");
+  const [contentAr, setContentAr] = useState("");
+  const [client, setClient] = useState("");
+  const [categoryId, setCategoryId] = useState("");
+  const [status, setStatus] = useState("draft");
+  const [featuredImage, setFeaturedImage] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  
+
+  // Category management
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(true);
+
   // Fetch project data
   useEffect(() => {
     const fetchProject = async () => {
       try {
         setIsLoading(true);
         setError(null);
-        
+
         const response = await fetch(`/api/projects/${params.id}`);
-        
+
         if (!response.ok) {
           if (response.status === 404) {
-            throw new Error('Project not found');
+            throw new Error("Project not found");
           }
-          throw new Error('Failed to fetch project');
+          throw new Error("Failed to fetch project");
         }
-        
-        const project: Project = await response.json();
-        
+
+        const project: ProjectWithCategory = await response.json();
+
         // Set form values
-        setTitleEn(project.title.en || '');
-        setTitleAr(project.title.ar || '');
+        setTitleEn(project.title.en || "");
+        setTitleAr(project.title.ar || "");
         setSlug(project.slug);
-        setDescriptionEn(project.description.en || '');
-        setDescriptionAr(project.description.ar || '');
-        setContentEn(project.content.en || '');
-        setContentAr(project.content.ar || '');
-        setClient(project.client || '');
-        setCategory(project.category || '');
-        setStatus(project.status || 'draft');
-        setFeaturedImage(project.featured_image || '');
+        setDescriptionEn(project.description.en || "");
+        setDescriptionAr(project.description.ar || "");
+        setContentEn(project.content.en || "");
+        setContentAr(project.content.ar || "");
+        setClient(project.client || "");
+        setCategoryId(project.category_id || "");
+        setStatus(project.status || "draft");
+        setFeaturedImage(project.featured_image || "");
       } catch (err) {
         console.error(err);
-        setError('Error loading project data. Please try again.');
+        setError("Error loading project data. Please try again.");
       } finally {
         setIsLoading(false);
       }
     };
-    
+
     fetchProject();
   }, [params.id]);
-  
+
+  // Fetch categories on component mount
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch("/api/categories");
+        if (!response.ok) {
+          throw new Error("Failed to fetch categories");
+        }
+        const data = await response.json();
+        setCategories(data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      } finally {
+        setIsLoadingCategories(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
   // Create slug from string
   const createSlug = (text: string) => {
     return text
       .toLowerCase()
-      .replace(/\s+/g, '-')
-      .replace(/[^\w\-]+/g, '')
-      .replace(/\-\-+/g, '-')
-      .replace(/^-+/, '')
-      .replace(/-+$/, '');
+      .replace(/\s+/g, "-")
+      .replace(/[^\w\-]+/g, "")
+      .replace(/\-\-+/g, "-")
+      .replace(/^-+/, "")
+      .replace(/-+$/, "");
   };
-  
+
   // Handle image selection
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    
+
     // Check if file is an image
-    if (!file.type.startsWith('image/')) {
-      setError('Please select an image file');
+    if (!file.type.startsWith("image/")) {
+      setError("Please select an image file");
       return;
     }
-    
+
     // Check file size (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
-      setError('Image file size should be less than 5MB');
+      setError("Image file size should be less than 5MB");
       return;
     }
-    
+
     setImageFile(file);
     setImagePreview(URL.createObjectURL(file));
     setError(null);
   };
-  
+
   // Remove selected image
   const removeSelectedImage = () => {
     setImageFile(null);
@@ -113,77 +138,85 @@ export default function EditProjectPage() {
       setImagePreview(null);
     }
   };
-  
+
   // Remove existing image
   const removeExistingImage = () => {
-    setFeaturedImage('');
+    setFeaturedImage("");
   };
-  
+
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validate required fields
-    if (!titleEn || !titleAr || !slug || !descriptionEn || !descriptionAr || !contentEn || !contentAr) {
-      setError('Please fill in all required fields');
+    if (
+      !titleEn ||
+      !titleAr ||
+      !slug ||
+      !descriptionEn ||
+      !descriptionAr ||
+      !contentEn ||
+      !contentAr
+    ) {
+      setError("Please fill in all required fields");
       return;
     }
-    
+
     try {
       setIsSubmitting(true);
       setError(null);
-      
+
       // Upload new image if selected
       let imageUrl = featuredImage;
       if (imageFile) {
         imageUrl = await uploadImage(imageFile);
       }
-      
+
       // Update data object
       const updateData = {
         title: {
           en: titleEn,
-          ar: titleAr
+          ar: titleAr,
         },
         slug,
         description: {
           en: descriptionEn,
-          ar: descriptionAr
+          ar: descriptionAr,
         },
         content: {
           en: contentEn,
-          ar: contentAr
+          ar: contentAr,
         },
         featured_image: imageUrl,
         client,
-        category,
-        status
+        category_id: categoryId,
+        status,
       };
-      
+
       // Update the project
       const response = await fetch(`/api/projects/${params.id}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(updateData),
       });
-      
+
       if (!response.ok) {
-        throw new Error('Failed to update project');
+        throw new Error("Failed to update project");
       }
-      
+
       // Redirect to projects list
-      router.push('/admin/projects');
+      router.push("/admin/projects");
       router.refresh();
     } catch (err) {
       console.error(err);
-      setError('Error updating project. Please try again.');
+      setError("Error updating project. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
   };
-  
+
   if (isLoading) {
     return (
       <div className="flex justify-center py-8">
@@ -191,7 +224,7 @@ export default function EditProjectPage() {
       </div>
     );
   }
-  
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -206,14 +239,22 @@ export default function EditProjectPage() {
           <h1 className="text-2xl font-bold">Edit Project</h1>
         </div>
       </div>
-      
+
       {/* Error message */}
       {error && (
         <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-md">
           <div className="flex">
             <div className="flex-shrink-0">
-              <svg className="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+              <svg
+                className="h-5 w-5 text-red-500"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                  clipRule="evenodd"
+                />
               </svg>
             </div>
             <div className="ml-3">
@@ -222,17 +263,25 @@ export default function EditProjectPage() {
           </div>
         </div>
       )}
-      
+
       {/* Form */}
-      <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-lg overflow-hidden">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white shadow-md rounded-lg overflow-hidden"
+      >
         <div className="p-6 space-y-6">
           {/* Basic info section */}
           <div className="space-y-6">
-            <h2 className="text-lg font-medium border-b pb-2">Basic Information</h2>
-            
+            <h2 className="text-lg font-medium border-b pb-2">
+              Basic Information
+            </h2>
+
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
-                <label htmlFor="titleEn" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="titleEn"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   English Title <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -245,9 +294,12 @@ export default function EditProjectPage() {
                   required
                 />
               </div>
-              
+
               <div>
-                <label htmlFor="titleAr" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="titleAr"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Arabic Title <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -261,9 +313,12 @@ export default function EditProjectPage() {
                   required
                 />
               </div>
-              
+
               <div>
-                <label htmlFor="slug" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="slug"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   URL Slug <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -276,12 +331,16 @@ export default function EditProjectPage() {
                   required
                 />
                 <p className="mt-1 text-xs text-gray-500">
-                  This will be used in the URL: /projects/{slug || 'example-slug'}
+                  This will be used in the URL: /projects/
+                  {slug || "example-slug"}
                 </p>
               </div>
-              
+
               <div>
-                <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="status"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Status
                 </label>
                 <select
@@ -294,9 +353,12 @@ export default function EditProjectPage() {
                   <option value="published">Published</option>
                 </select>
               </div>
-              
+
               <div>
-                <label htmlFor="client" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="client"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Client
                 </label>
                 <input
@@ -308,28 +370,56 @@ export default function EditProjectPage() {
                   placeholder="Client name"
                 />
               </div>
-              
+
               <div>
-                <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="category"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Category
                 </label>
-                <input
-                  type="text"
-                  id="category"
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                  placeholder="Web Development, Design, Marketing, etc."
-                />
+
+                {isLoadingCategories ? (
+                  <div className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50">
+                    Loading categories...
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    <select
+                      id="category"
+                      value={categoryId}
+                      onChange={(e) => setCategoryId(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                    >
+                      <option value="">Select a category</option>
+                      {categories.map((category) => (
+                        <option key={category.id} value={category.id}>
+                          {category.name.en} / {category.name.ar}
+                        </option>
+                      ))}
+                    </select>
+
+                    <p className="text-xs text-gray-500 mt-1">
+                      Need to add a new category?{" "}
+                      <Link
+                        href="/admin/categories"
+                        className="text-green-600 hover:text-green-700 underline"
+                        target="_blank"
+                      >
+                        Manage Categories
+                      </Link>
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
-            
+
             {/* Featured Image upload */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Featured Image
               </label>
-              
+
               <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                 {imagePreview ? (
                   <div className="space-y-2 text-center">
@@ -401,20 +491,27 @@ export default function EditProjectPage() {
                       </label>
                       <p className="pl-1">or drag and drop</p>
                     </div>
-                    <p className="text-xs text-gray-500">PNG, JPG, GIF up to 5MB</p>
+                    <p className="text-xs text-gray-500">
+                      PNG, JPG, GIF up to 5MB
+                    </p>
                   </div>
                 )}
               </div>
             </div>
           </div>
-          
+
           {/* Description section */}
           <div className="space-y-6">
-            <h2 className="text-lg font-medium border-b pb-2">Short Description</h2>
-            
+            <h2 className="text-lg font-medium border-b pb-2">
+              Short Description
+            </h2>
+
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
-                <label htmlFor="descriptionEn" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="descriptionEn"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   English Description <span className="text-red-500">*</span>
                 </label>
                 <textarea
@@ -427,9 +524,12 @@ export default function EditProjectPage() {
                   required
                 />
               </div>
-              
+
               <div>
-                <label htmlFor="descriptionAr" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="descriptionAr"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Arabic Description <span className="text-red-500">*</span>
                 </label>
                 <textarea
@@ -445,14 +545,17 @@ export default function EditProjectPage() {
               </div>
             </div>
           </div>
-          
+
           {/* Content section */}
           <div className="space-y-6">
             <h2 className="text-lg font-medium border-b pb-2">Full Content</h2>
-            
+
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
-                <label htmlFor="contentEn" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="contentEn"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   English Content <span className="text-red-500">*</span>
                 </label>
                 <textarea
@@ -465,9 +568,12 @@ export default function EditProjectPage() {
                   required
                 />
               </div>
-              
+
               <div>
-                <label htmlFor="contentAr" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="contentAr"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Arabic Content <span className="text-red-500">*</span>
                 </label>
                 <textarea
@@ -484,7 +590,7 @@ export default function EditProjectPage() {
             </div>
           </div>
         </div>
-        
+
         {/* Form actions */}
         <div className="px-6 py-4 bg-gray-50 text-right space-x-4">
           <Link
@@ -497,10 +603,10 @@ export default function EditProjectPage() {
             type="submit"
             disabled={isSubmitting}
             className={`px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-green-400 to-cyan-500 hover:from-green-500 hover:to-cyan-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 ${
-              isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
+              isSubmitting ? "opacity-70 cursor-not-allowed" : ""
             }`}
           >
-            {isSubmitting ? 'Saving...' : 'Update Project'}
+            {isSubmitting ? "Saving..." : "Update Project"}
           </button>
         </div>
       </form>

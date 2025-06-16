@@ -27,7 +27,7 @@ export default function HomePage() {
       <ServicesSection />
       <Ready />
       <ProjectsSection />
-      <BlogSection />
+      {/* <BlogSection /> */}
       <TeamSection />
       <Footer />
     </>

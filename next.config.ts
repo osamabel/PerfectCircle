@@ -2,7 +2,8 @@ import {NextConfig} from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
  
 const nextConfig: NextConfig = {
-    output: 'standalone',
+    // Only use standalone output in production
+    ...(process.env.NODE_ENV === 'production' && { output: 'standalone' }),
     images: {
       remotePatterns: [
         {
@@ -11,6 +12,18 @@ const nextConfig: NextConfig = {
         }
       ],
     },
+    // Enable hot reloading in development
+    ...(process.env.NODE_ENV === 'development' && {
+      webpack: (config, { dev }) => {
+        if (dev) {
+          config.watchOptions = {
+            poll: 1000,
+            aggregateTimeout: 300,
+          };
+        }
+        return config;
+      },
+    }),
 };
  
 const withNextIntl = createNextIntlPlugin();

@@ -4,11 +4,11 @@ import { useState, useEffect } from 'react';
 import { Plus, Edit, Trash2, RefreshCw, Search, Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Project } from '@/lib/models/project';
+import { ProjectWithCategory } from '@/lib/models/project';
 import CustomImage from '@/components/CustomImageProps';
 
 export default function ProjectsPage() {
-  const [projects, setProjects] = useState<Project[]>([]);
+  const [projects, setProjects] = useState<ProjectWithCategory[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -40,12 +40,17 @@ export default function ProjectsPage() {
   }, []);
   
   // Filter projects based on search term
-  const filteredProjects = projects.filter(project => 
-    project.title['en']?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    project.slug.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    project.client?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    project.category?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredProjects = projects.filter(project => {
+    const categoryName = project.category ? 
+      (project.category.name['en'] || project.category.name['ar'] || '') : '';
+    
+    return (
+      project.title['en']?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      project.slug.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      project.client?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      categoryName.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
   
   // Handle delete
   const handleDelete = async (id: string) => {
@@ -225,7 +230,7 @@ export default function ProjectsPage() {
                       <div className="text-sm text-gray-900">{project.client || '-'}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{project.category || '-'}</div>
+                      <div className="text-sm text-gray-900">{project.category ? project.category.name['en'] || project.category.name['ar'] || '-' : '-'}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${

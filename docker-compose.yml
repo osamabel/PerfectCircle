@@ -1,0 +1,54 @@
+version: "3.8"
+
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    container_name: perfectcircle-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: perfectcircle
+      POSTGRES_USER: perfectcircle_user
+      POSTGRES_PASSWORD: perfectcircle_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - perfectcircle-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U perfectcircle_user -d perfectcircle"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Next.js Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: perfectcircle-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://perfectcircle_user:perfectcircle_password@db:5432/perfectcircle
+      - NEXTAUTH_URL=http://localhost:3000
+      # All other environment variables (BREVO_*, CONTACT_EMAIL, etc.) will be loaded from .env file
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - perfectcircle-network
+
+volumes:
+  postgres_data:
+
+networks:
+  perfectcircle-network:
+    driver: bridge

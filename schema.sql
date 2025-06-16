@@ -12,6 +12,15 @@ CREATE TABLE IF NOT EXISTS users (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Create categories table (for projects)
+CREATE TABLE IF NOT EXISTS categories (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  name JSONB NOT NULL DEFAULT '{}'::jsonb, -- Store localized names as JSON
+  slug VARCHAR(255) UNIQUE NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Create team_members table
 CREATE TABLE IF NOT EXISTS team_members (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -53,18 +62,22 @@ CREATE TABLE IF NOT EXISTS blog_posts (
 -- Create projects table
 CREATE TABLE IF NOT EXISTS projects (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  title VARCHAR(255) NOT NULL,
+  title JSONB NOT NULL DEFAULT '{}'::jsonb, -- Localized titles
   slug VARCHAR(255) UNIQUE NOT NULL,
-  description TEXT,
-  content TEXT NOT NULL,
+  description JSONB NOT NULL DEFAULT '{}'::jsonb, -- Localized descriptions
+  content JSONB NOT NULL DEFAULT '{}'::jsonb, -- Localized content
   featured_image VARCHAR(512),
   client VARCHAR(255),
-  category VARCHAR(100),
+  category_id UUID REFERENCES categories(id) ON DELETE SET NULL,
   status VARCHAR(50) NOT NULL DEFAULT 'draft',
   published_at TIMESTAMP WITH TIME ZONE,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Create indexes for better performance
+CREATE INDEX IF NOT EXISTS idx_projects_category_id ON projects(category_id);
+CREATE INDEX IF NOT EXISTS idx_categories_slug ON categories(slug);
 
 -- Add a trigger function to update the updated_at column
 CREATE OR REPLACE FUNCTION update_modified_column()
@@ -81,6 +94,12 @@ BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'update_users_modtime') THEN
         CREATE TRIGGER update_users_modtime
         BEFORE UPDATE ON users
+        FOR EACH ROW EXECUTE FUNCTION update_modified_column();
+    END IF;
+
+    IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'update_categories_modtime') THEN
+        CREATE TRIGGER update_categories_modtime
+        BEFORE UPDATE ON categories
         FOR EACH ROW EXECUTE FUNCTION update_modified_column();
     END IF;
 

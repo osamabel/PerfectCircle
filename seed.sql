@@ -9,6 +9,17 @@ VALUES (
   'admin'
 ) ON CONFLICT (email) DO NOTHING;
 
+-- Insert default categories
+INSERT INTO categories (name, slug) VALUES
+  ('{"en": "Web Development", "ar": "تطوير الويب"}', 'web-development'),
+  ('{"en": "Mobile App", "ar": "تطبيق جوال"}', 'mobile-app'),
+  ('{"en": "UI/UX Design", "ar": "تصميم واجهة المستخدم"}', 'ui-ux-design'),
+  ('{"en": "E-commerce", "ar": "التجارة الإلكترونية"}', 'e-commerce'),
+  ('{"en": "Digital Marketing", "ar": "التسويق الرقمي"}', 'digital-marketing'),
+  ('{"en": "Branding", "ar": "العلامة التجارية"}', 'branding'),
+  ('{"en": "SEO", "ar": "تحسين محركات البحث"}', 'seo')
+ON CONFLICT (slug) DO NOTHING;
+
 -- Insert sample team members
 INSERT INTO team_members (name, position, image, social_links)
 VALUES

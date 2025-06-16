@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import CompanyMarquee from "./CompanyMarquee";
+import Button from "./Button";
 
 export default function Ready() {
   const t = useTranslations("Ready");
@@ -33,7 +34,8 @@ export default function Ready() {
               <div className="bg-black/30 backdrop-blur-sm p-14 rounded-xl">
                 <h1 className="text-3xl md:text-4xl font-medium text-white mb-4">
                   {t("ready")} {t("build")} <br />
-                  <span className="gradient-text"> {t("great")}</span><br />
+                  <span className="gradient-text"> {t("great")}</span>
+                  <br />
                   {t("together")}
                 </h1>
 
@@ -41,13 +43,7 @@ export default function Ready() {
                   {t("description")}
                 </p>
 
-                <Link
-                  href="/contact"
-                  style={{backgroundColor: 'var(--lightgreen)'}}
-                  className="inline-block hover:bg-[#4cc492] text-black font-medium px-8 py-3 rounded-full transition duration-300"
-                >
-                  Learn more
-                </Link>
+                <Button link="/contact" content="Learn more" size="md" />
               </div>
             </div>
           </div>
