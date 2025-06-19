@@ -13,19 +13,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create transporter using Brevo SMTP
+    // Create transporter using Namecheap Private Email SMTP
     const transporter = nodemailer.createTransport({
-      host: process.env.BREVO_SMTP_HOST || "smtp-relay.brevo.com",
-      port: parseInt(process.env.BREVO_SMTP_PORT || "587"),
+      host: process.env.SMTP_HOST || "mail.privateemail.com",
+      port: parseInt(process.env.SMTP_PORT || "587"),
       secure: false, // true for 465, false for other ports
       auth: {
-        user: process.env.BREVO_SMTP_USER,
-        pass: process.env.BREVO_SMTP_KEY,
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASSWORD,
       },
       tls: {
-        // Some servers may require this
-        ciphers: "SSLv3",
-        rejectUnauthorized: false,
+        // Namecheap Private Email supports TLS/STARTTLS
+        rejectUnauthorized: true,
       },
     });
 
@@ -53,7 +52,7 @@ export async function POST(request: NextRequest) {
 
     // Email content (same as before)
     const mailOptions = {
-      from: `"Website Contact Form" <${process.env.BREVO_SENDER_EMAIL || process.env.BREVO_SMTP_USER}>`,
+      from: `"Website Contact Form" <${process.env.SENDER_EMAIL || process.env.SMTP_USER}>`,
       to: process.env.CONTACT_EMAIL, // Where to receive submissions
       replyTo: data.email,
       subject: `New Contact Form Submission from ${data.name}`,
