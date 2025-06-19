@@ -10,6 +10,12 @@ docker-compose*
 # Documentation
 README.md
 DOCKER_README.md
+VPS_DEPLOYMENT_GUIDE.md
+NAMECHEAP_EMAIL_SETUP.md
+DOCKER_COMMANDS.md
+
+# Nginx configuration (mounted as volumes)
+nginx/
 
 # Environment files (will be mounted as volumes)
 .env*

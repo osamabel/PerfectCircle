@@ -219,13 +219,13 @@ export default function Header() {
             >
               {t("contact")}
             </Link>
-            <Link
+            {/* <Link
               href="/blogs"
               className="px-3 py-2 text-white hover:text-green-400 transition duration-200"
               onClick={() => setIsMenuOpen(false)}
             >
               {t("blogs")}
-            </Link>
+            </Link> */}
             <div className="px-3 py-2">
               <LanguageSwitcher />
             </div>
