@@ -34,11 +34,11 @@ body {
 
 /* Font family classes for locale-specific fonts */
 .font-inter {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Tajawal', sans-serif;
 }
 
 .font-arabic {
-  font-family: 'Cairo', 'Tajawal', sans-serif;
+  font-family: 'Tajawal', sans-serif;
 }
 
 .gradient-text {

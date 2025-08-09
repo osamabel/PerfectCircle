@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import CompanyMarquee from "./CompanyMarquee";
@@ -8,7 +8,9 @@ import Button from "./Button";
 
 export default function Ready() {
   const t = useTranslations("Ready");
+  const tb = useTranslations("Header");
 
+  const locale = useLocale();
   return (
     <div className="relative">
       {/* Background Image */}
@@ -42,8 +44,12 @@ export default function Ready() {
                 <p className="text-gray-300 mb-8 max-w-lg">
                   {t("description")}
                 </p>
-
-                <Button link="/contact" content="Learn more" size="md" />
+                  <Button
+                    link="https://wa.me/966549292268"
+                    content={tb("getStarted")}
+                    size="md"
+                    className={locale === "ar" ? "font-bold" : "font-medium"}
+                  />
               </div>
             </div>
           </div>

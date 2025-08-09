@@ -209,7 +209,7 @@ export default function ProjectDetailPage() {
                   : "We provide tailored solutions for your needs. Let's discuss your next project."}
               </p>
               <Link
-                href="/contact"
+                href="https://wa.me/966549292268"
                 className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-full text-black bg-[#65DBA8] hover:bg-green-500 transition-colors"
               >
                 {locale === "ar" ? "تواصل معنا" : "Contact Us"}

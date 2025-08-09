@@ -130,7 +130,7 @@ export default function ServicesPage() {
                 : "Ready to get started on your project?"}
             </h2>
             <Button
-              link="/contact"
+              link="https://wa.me/966549292268"
               content={locale === "ar" ? "تواصل معنا الآن" : "Contact us today"}
               size="lg"
             />

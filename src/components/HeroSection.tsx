@@ -31,22 +31,22 @@ export default function HeroSection() {
 
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
-        <h1 className="text-4xl lg:text-5xl  mb-8">
+        <h1 className="text-4xl lg:text-5xl mb-8">
           <span className="">{t("one")}</span> <br />
-          <span className=" gradient-text font-bold h-[53px]">{t("two")}</span>
+          <span className="gradient-text font-bold h-[53px]">{t("two")}</span>
         </h1>
 
         <p className="max-w-2xl text-lg mb-12 mx-auto">{t("description")}</p>
 
         <div className="flex flex-col sm:flex-row gap-4">
           <Button
-            link="/contact"
+            link="https://wa.me/966549292268"
             content={t("getStarted")}
             size="md"
             className={locale === "ar" ? "font-bold" : "font-medium"}
           />
           <Button
-            link="/portfolio"
+            link="/#project"
             content={t("explorePortfolio")}
             variant="secondary"
             size="md"

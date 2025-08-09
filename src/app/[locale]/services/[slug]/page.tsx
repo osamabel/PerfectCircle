@@ -131,7 +131,7 @@ export default function ServiceDetailPage() {
               {/* Call to action */}
               <div className="mt-12 text-center">
                 <Link
-                  href="/contact"
+                  href="https://wa.me/966549292268"
                   style={{backgroundColor: 'var(--lightgreen)'}}
                   className="inline-flex items-center justify-center px-8 py-3 text-base font-medium text-black bg-green-500 border border-transparent rounded-full hover:bg-green-600"
                 >

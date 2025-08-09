@@ -3,7 +3,6 @@ import { Link } from '@/i18n/navigation';
 import HeroSection from '@/components/HeroSection';
 import ConsultationSection from '@/components/Consultation';
 import Header from '@/components/Header';
-import AboutSection from './about/page';
 import Grow from '@/components/Grow';
 import StatsSection from '@/components/StatsSection';
 import ServicesSection from '@/components/ServicesSection';
@@ -12,6 +11,7 @@ import ProjectsSection from '@/components/ProjectsSection';
 import Footer from '@/components/Footer';
 import TeamSection from '@/components/TeamSection';
 import BlogSection from '@/components/BlogSection';
+import AboutSection from '@/components/AboutSection';
 
 export default function HomePage() {
   const t = useTranslations('HomePage');

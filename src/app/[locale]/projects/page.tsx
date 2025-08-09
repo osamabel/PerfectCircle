@@ -6,8 +6,6 @@ import { useSearchParams } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Image from "next/image";
-import { ArrowRight } from "lucide-react";
 import { ProjectWithCategory } from "@/lib/models/project";
 import { Category } from "@/lib/models/category";
 import CustomImage from "@/components/CustomImageProps";
@@ -264,7 +262,7 @@ export default function ProjectsPage() {
                 : "We are here to help you turn your ideas into reality. Let's collaborate to create something exceptional."}
             </p>
             <Link
-              href="/contact"
+              href="https://wa.me/966549292268"
               className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-full text-black bg-[#65DBA8] hover:bg-green-500 transition-colors"
             >
               {locale === "ar" ? "تواصل معنا" : "Contact Us"}

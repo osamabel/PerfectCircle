@@ -22,9 +22,12 @@
   },
   "About": {
     "whoWeAre": "WHO WE ARE",
+    "whoWeAre_about": "About us",
     "innovativeSolutions": "Innovative Solutions for Your",
     "onlineSuccess": "Online Success.",
+    "onlineSuccess_about": "We are digital transformation experts..",
     "description": "We specialize in creating digital experiences that enable your business to achieve new goals. With a team of experienced professionals, we offer services including establishing and managing technical projects, designing and developing websites and applications, artificial intelligence solutions, search engine optimization, establishing and managing online stores, digital marketing, and social media management.",
+    "description_about": "Perfect Loop Company is a leading Saudi company specializing in delivering innovative technological solutions that meet the demands of the digital age. We focus on innovation, simplicity, and efficiency to develop creative services that support sustainable growth for businesses and help them achieve their full potential. Inspired by the vision of our wise leadership, we are working to build a promising digital future.",
     "customSolutions": "Custom Solutions",
     "cuttingEdgeDesign": "Cutting-Edge Design",
     "seoOptimization": "SEO Optimization",
@@ -148,17 +151,18 @@
   },
   "Footer": {
     "address": {
-      "line1": "Jalan Cempaka Wangi No 22",
-      "line2": "Jakarta - Indonesia"
+      "line1": "Perfect Loop Co. for business solutions",
+      "line2": "Makkah - Saudi Arabia"
     },
     "services": {
       "title": "Services",
-      "webDesign": "Web Design",
-      "webDevelopment": "Web Development",
+      "webDesign": "Development and design of custom software",
+      "webDevelopment": "Digital Transformation",
       "seoDigitalMarketing": "SEO & Digital Marketing",
       "brandingVisualIdentity": "Branding & Visual Identity",
       "consultationStrategy": "Consultation & Strategy",
-      "maintenanceSupport": "Maintenance & Support"
+      "maintenanceSupport": "Maintenance & Support",
+      "artificialIntelligence": "Artificial Intelligence Solutions"
     },
     "support": {
       "title": "Support",
@@ -176,8 +180,8 @@
       "articleNews": "Article & News",
       "legalNotices": "Legal Notices"
     },
-    "copyright": "Copyright ©",
-    "copyrightSuffix": "webiso, All rights reserved.",
+    "copyright": "All rights reserved",
+    "copyrightSuffix": "by Perfect Loop Co.",
     "termsOfUse": "Term of use",
     "privacyPolicy": "Privacy Policy",
     "cookiePolicy": "Cookie Policy"

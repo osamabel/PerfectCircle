@@ -61,7 +61,7 @@ export default function Header() {
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link href="/" className="flex items-center">
-              <div className="w-[100px] h-[100px] relative">
+              <div className="w-[160px] h-[100px] relative">
                 <Image
                   src="/logoWhile.png"
                   alt="Logo"
@@ -81,7 +81,7 @@ export default function Header() {
               {t("home")}
             </Link>
             <Link
-              href="/#about"
+              href="/about"
               className="px-3 py-2 text-white hover:text-green-400 transition duration-200"
             >
               {t("about")}
@@ -102,35 +102,35 @@ export default function Header() {
 
             <Link
               href="/#contact"
-              onClick={(e) => {
-                e.preventDefault();
-                const contactSection = document.getElementById("contact");
-                if (contactSection) {
-                  const offset = 300;
-                  const topPosition =
-                    contactSection.getBoundingClientRect().top +
-                    window.scrollY -
-                    offset;
-                  window.scrollTo({ top: topPosition, behavior: "smooth" });
-                }
-              }}
+              // onClick={(e) => {
+              //   e.preventDefault();
+              //   const contactSection = document.getElementById("contact");
+              //   if (contactSection) {
+              //     const offset = 300;
+              //     const topPosition =
+              //       contactSection.getBoundingClientRect().top +
+              //       window.scrollY -
+              //       offset;
+              //     window.scrollTo({ top: topPosition, behavior: "smooth" });
+              //   }
+              // }}
               className="px-3 py-2 text-white hover:text-green-400 transition duration-200"
             >
               {t("contact")}
             </Link>
 
-            <Link
+            {/* <Link
               href="/#blogs"
               className="px-3 py-2 text-white hover:text-green-400 transition duration-200"
             >
               {t("blogs")}
-            </Link>
+            </Link> */}
           </nav>
 
           <div className="hidden md:flex items-center space-x-4">
             <LanguageSwitcher />
             <Button
-              link="/contact"
+              link="https://wa.me/966549292268"
               content={t("getStarted")}
               size="md"
               className={locale === "ar" ? "font-bold" : "font-medium"}
